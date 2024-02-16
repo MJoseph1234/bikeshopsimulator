@@ -13,8 +13,8 @@ var target1 = {
 	effectDescription: "Enable hiring sales staff",
 	trigger: function(){return gameData.bikesSold >= 10},
 	effect: function(){
-		document.getElementById("staff-sales-label").hidden = false;
-		document.getElementById("hire-sales").hidden = false;
+		document.getElementById("staff-sales-label").classList.remove("hidden");
+		document.getElementById("hire-sales").classList.remove("hidden");
 		console.log(target1.title);
 	}
 }
@@ -27,8 +27,8 @@ var target2 = {
 	effectDescription: "Enable hiring mechanics",
 	trigger: function(){return gameData.bikes + gameData.bikesSold >= 100},
 	effect: function(){
-		document.getElementById("staff-mechanics-label").hidden = false;
-		document.getElementById("hire-mechanic").hidden = false;
+		document.getElementById("staff-mechanics-label").classList.remove("hidden");
+		document.getElementById("hire-mechanic").classList.remove("hidden");
 		console.log(target2.title);
 	}
 }

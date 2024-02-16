@@ -9,9 +9,9 @@ var gameLoop = window.setInterval(function() {
 	calculateBusinessAnalytics();
 	
 	// mainGameLoop()
-	// if (gameData.timer % 10 === 0) {
-	// 	saveGame()
-	// }
+	if (gameData.timer % 10 === 0) {
+		saveGame()
+	}
 }, 1000)
 
 function saveGame() {
@@ -43,7 +43,7 @@ function checkTargets() {
 
 function setNewsTicker(newString) {
 	tickerTextElement = document.getElementById("tickerText");
-	tickerTextElement.innerHTML = newString; 
+	tickerTextElement.innerHTML = newString;
 }
 
 function updateCustomers() {
@@ -62,7 +62,7 @@ function calculateBusinessAnalytics() {
 		if (gameData.salesRateData.length > 5) {
 			gameData.salesRateData.pop();
 		}
-		gameData.salesPerMinuteAverage = Math.round(gameData.salesRateData.reduce((partialSum, datum) => partialSum + datum, 0) / gameData.salesRateData.length;
+		gameData.salesPerMinuteAverage = Math.round(gameData.salesRateData.reduce((partialSum, datum) => partialSum + datum, 0) / gameData.salesRateData.length);
 		// console.log("Sales Rate: " + gameData.salesPerMinuteAverage + " bikes per minute (averaged over last " + gameData.salesRateData.length + " minutes)");
 	}
 }
@@ -135,7 +135,6 @@ function mechanicShift() {
 	if (!canBuildBike() || gameData.mechanics === 0) {
 		return
 	}
-	// IDEA: each mechanic could have their own timer based on when they're hired
 	if (gameData.timer % gameData.mechanicBaseTimePerBike === 0) {
 		for (let i = 0; i < gameData.mechanics; i++) {
 			buildBike();

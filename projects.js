@@ -5,7 +5,7 @@ These improve some rate or chance, or enable a new action to appear
 
 var basicSalesTraining = {
 	title: 'Basic Sales Training',
-	done: false,
+	purchased: 0,
 	effectDescription: "Improve sales staff success rate by 10%",
 	effect: function() {
 		gameData.salesPersonSuccessRate *= 1.1;
@@ -14,7 +14,7 @@ var basicSalesTraining = {
 
 var basicMechanicTraining = {
 	title: 'Basic Mechanic Training',
-	done: false,
+	purchased: 0,
 	effectDescription: "Improve mechanic build rate by 10%",
 	effect: function() {
 		gameData.mechanicBaseTimePerBike = Math.floor(gameData.mechanicBaseTimePerBike * 0.9);
@@ -23,6 +23,6 @@ var basicMechanicTraining = {
 
 var businessAnalytics = {
 	title: 'Business Analytics',
-	done: false,
+	purchased: 0,
 	effectDescription: 
 }

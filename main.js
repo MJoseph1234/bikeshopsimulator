@@ -1,3 +1,7 @@
+if (localStorage.getItem("bikeShopSimulatorSave") != null) {
+	loadGame()
+}
+
 var gameLoop = window.setInterval(function() {
 	gameData.timer += 1
 	checkTargets();
@@ -7,21 +11,44 @@ var gameLoop = window.setInterval(function() {
 	adjustBikePartsPrice();
 	manageButtons();
 	calculateBusinessAnalytics();
-	
-	// mainGameLoop()
+
 	if (gameData.timer % 10 === 0) {
-		saveGame()
+		saveGame();
 	}
 }, 1000)
 
 function saveGame() {
+	var targetsMet = [];
+	for (var i=0; i < targets.length; i++) {
+		targetsMet[i] = targets[i].done;
+	}
 	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
+	localStorage.setItem("bikeShopSimulatorSaveTargets", JSON.stringify(targetsMet));
 }
 function loadGame() {
 	var savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
+	var savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));
 	if (savedGame != null) {
 		gameData = savedGame;
 	}
+	for (var i=0; i < targets.length; i++) {
+		if (savedTargets[i].done) {
+			targets[i].done = true;
+			target.effect();
+		}
+	}
+	refreshCounters();
+}
+
+function refreshCounters() {
+	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold.toLocaleString();
+	document.getElementById("bikes-built").innerHTML = gameData.bikes;
+	document.getElementById("bike-parts").innerHTML = gameData.bikeParts;
+	document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
+	document.getElementById("customers").innerHTML = gameData.customers;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
+	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
+	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
 }
 
 function manageButtons() {
@@ -36,7 +63,7 @@ function checkTargets() {
 	targets.forEach(target => {
 		if (target.trigger() && !(target.done)) {
 			target.done = true;
-			target.effect()
+			target.effect();
 		}
 	})
 }
@@ -96,7 +123,7 @@ function hireSales() {
 	}
 	gameData.money -= gameData.salesPersonHiringCost;
 	gameData.salesPeople += 1;
-	document.getElementById("money").innerHTML = gameData.money;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
 	document.getElementById("hire-sales").disabled = !canHireSales();
 }
@@ -113,7 +140,7 @@ function hireMechanic() {
 	}
 	gameData.money -= gameData.mechanicHiringCost;
 	gameData.mechanics += 1;
-	document.getElementById("money").innerHTML = gameData.money;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
 	
 	document.getElementById("hire-mechanic").disabled = !canHireMechanic();
@@ -149,7 +176,7 @@ function adjustBikePartsPrice() {
 	if (Math.random() < gameData.bikePartsPriceAdjustChance) {
 		var partsAdjust = 25*(Math.sin(gameData.timer));
 		gameData.bikePartsCost = Math.ceil(gameData.bikePartsBaseCost + partsAdjust);
-		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost;
+		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	}
 }
@@ -169,7 +196,7 @@ function sellBike() {
 	gameData.salesRateData[0] += 1;
 	document.getElementById("bikes-built").innerHTML = gameData.bikes;
 	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold;
-	document.getElementById("money").innerHTML = gameData.money;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("customers").innerHTML = gameData.customers;
 
 	document.getElementById('sell-bike').disabled = !canSellBike();
@@ -187,7 +214,7 @@ function buyBikeParts() {
 	gameData.money -= gameData.bikePartsCost;
 	gameData.bikeParts += gameData.bikePartsPerBuy;
 	document.getElementById("bike-parts").innerHTML = gameData.bikeParts;
-	document.getElementById("money").innerHTML = gameData.money;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 
 	document.getElementById('build-bike').disabled = !canBuildBike();
 	document.getElementById('buy-bike-parts').disabled = !canBuyBikeParts();

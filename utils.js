@@ -2,6 +2,7 @@
 
 function reset() {
 	localStorage.removeItem("bikeShopSimulatorSave");
+	localStorage.removeItem("bikeShopSimulatorSaveTargets");
 	location.reload();
 }
 

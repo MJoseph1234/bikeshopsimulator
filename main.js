@@ -84,7 +84,7 @@ function refreshCounters() {
 	document.getElementById("customers").innerHTML = gameData.customers;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
-	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
+	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics.length;
 }
 
 function manageButtons() {
@@ -170,9 +170,9 @@ function hireMechanic() {
 		return
 	}
 	gameData.money -= gameData.mechanicHiringCost;
-	gameData.mechanics += 1;
+	gameData.mechanics.push(gameData.timer);
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
+	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics.length;
 	
 	document.getElementById("hire-mechanic").disabled = !canHireMechanic();
 }
@@ -190,12 +190,14 @@ function salesShift() {
 }
 
 function mechanicShift() {
-	if (!canBuildBike() || gameData.mechanics === 0) {
+	if (gameData.mechanics.length === 0) {
 		return
 	}
-	if (gameData.timer % gameData.mechanicBaseTimePerBike === 0) {
-		for (let i = 0; i < gameData.mechanics; i++) {
+	let ts = gameData.timer;
+	for (let i = 0; i < gameData.mechanics.length; i++) {
+		if (gameData.mechanics[i] + gameData.mechanicBaseTimePerBike <= ts) {
 			buildBike();
+			gameData.mechanics[i] = ts;
 		}
 	}
 }

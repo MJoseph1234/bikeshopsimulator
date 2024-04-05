@@ -25,7 +25,7 @@ var gameData = {
 	salesRateData: [0],
 	salesRate: 0, //sales per minute over last 5 minutes
 
-	mechanics: 0,
+	mechanics: [],
 	mechanicBaseTimePerBike: 30,//seconds per bike per mechanic
 	mechanicHiringCost: 1000,
 

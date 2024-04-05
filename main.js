@@ -3,7 +3,8 @@ if (localStorage.getItem("bikeShopSimulatorSave") != null) {
 }
 
 var gameLoop = window.setInterval(function() {
-	gameData.timer += 1
+	//runs once per second
+	gameData.timer += 1;
 	checkTargets();
 	salesShift();
 	mechanicShift()
@@ -11,9 +12,13 @@ var gameLoop = window.setInterval(function() {
 	adjustBikePartsPrice();
 	manageButtons();
 	calculateBusinessAnalytics();
+	updateActiveProjects();
 
 	if (gameData.timer % 10 === 0) {
 		saveGame();
+	}
+	if (gameData.timer % 20 === 0 ) {
+		updateNewsTicker();
 	}
 }, 1000)
 
@@ -21,6 +26,10 @@ function saveGame() {
 	var targetsMet = [];
 	for (var i=0; i < targets.length; i++) {
 		targetsMet[i] = targets[i].done;
+	}
+	gameData.projectStatuses = [];
+	for (var i=0; i < projects.length; i++){
+		gameData.projectStatuses.push(projects[i].status)
 	}
 	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
 	localStorage.setItem("bikeShopSimulatorSaveTargets", JSON.stringify(targetsMet));
@@ -31,13 +40,40 @@ function loadGame() {
 	if (savedGame != null) {
 		gameData = savedGame;
 	}
-	for (var i=0; i < targets.length; i++) {
-		if (savedTargets[i].done) {
-			targets[i].done = true;
-			target.effect();
+	if (savedTargets != null){
+		for (var i=0; i < savedTargets.length; i++) {
+			if (savedTargets[i].done) {
+				targets[i].done = true;
+				target.effect();
+			}
 		}
 	}
+	for (let i=0; i < gameData.projectStatuses.length; i++){
+		projects[i].status = gameData.projectStatuses[i];
+	}
 	refreshCounters();
+	refreshProjectDOM();
+}
+
+function queueNewsTicker(value){
+	gameData.newsTickerNext.push(value);
+}
+
+function updateNewsTicker(){
+
+	if (gameData.newsTickerNext.length >= 1) {
+		next = gameData.newsTickerNext.shift();
+	}
+	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 100) {
+		next = news[Math.floor(Math.random()*news.length)]
+	}
+	else{
+		return;
+	}
+	console.log(next);
+	gameData.newsTickerTimeAtLastUpdate = gameData.timer;
+	gameData.NewsTickerText = next;
+	document.getElementById("tickerText").innerHTML = next;
 }
 
 function refreshCounters() {
@@ -66,11 +102,6 @@ function checkTargets() {
 			target.effect();
 		}
 	})
-}
-
-function setNewsTicker(newString) {
-	tickerTextElement = document.getElementById("tickerText");
-	tickerTextElement.innerHTML = newString;
 }
 
 function updateCustomers() {
@@ -221,3 +252,63 @@ function buyBikeParts() {
 	//This (and really any function that costs money) should also check
 	//to disable any other thing that costs money
 }
+
+function displayProject(project, index) {
+	projectElem = document.getElementById("p"+index);
+	projectElem.classList.toggle("disabled", !project.canAfford());
+	projectElem.getElementsByClassName("project-title")[0].innerHTML = project.title;
+	projectElem.getElementsByClassName("project-cost")[0].innerHTML = "(" + project.costStr + ")";
+	projectElem.getElementsByClassName("project-description")[0].innerHTML = project.effectDescription;
+	projectElem.classList.remove("hidden");
+	
+	projectElem.onclick = function() {
+		project.effect();
+		project.status = projectStatus.DONE;
+		projectElem.classList.toggle("hidden");
+		refreshProjectDOM();
+	}
+}
+
+function listProjectsWithStatus(status) {
+	//returns the index from the projects list, not the project object itself
+	var projectList = [];
+	for (let i=0; i < projects.length; i++) {
+		if (projects[i].hasOwnProperty("status") && projects[i].status == status) {
+			projectList.push(i);
+		}
+	}
+	return projectList
+}
+
+function refreshProjectDOM() {
+	var active = listProjectsWithStatus(projectStatus.ACTIVE);
+	for (let i = 0; i < 5; i++) {
+		if (i < active.length) {
+			displayProject(projects[active[i]], i);
+		}
+		else {
+			projectElem = document.getElementById("p"+i);
+			projectElem.getElementsByClassName("project-title")[0].innerHTML = "";
+			projectElem.getElementsByClassName("project-cost")[0].innerHTML = "";
+			projectElem.getElementsByClassName("project-description")[0].innerHTML = "";
+			projectElem.onclick = null;
+		}
+	}
+}
+
+function updateActiveProjects() {
+	var active = listProjectsWithStatus(projectStatus.ACTIVE);
+	var available = listProjectsWithStatus(projectStatus.AVAILABLE);
+	
+	while (active.length < 5 && available.length > 0) {
+		projects[available[0]].status = projectStatus.ACTIVE;
+		active.push(available.shift());
+		displayProject(projects[active[active.length - 1]], active.length - 1);
+	} 
+	for (let i = 0; i < active.length; i++) {
+		projectElem = document.getElementById("p"+i);
+		projectElem.classList.toggle("disabled", !projects[active[i]].canAfford());
+	}
+}
+
+

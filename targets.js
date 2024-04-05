@@ -1,36 +1,45 @@
 /* Targets
-Targets are passive goals that, once reached, enable some new feature or effect
 
+Targets are passive goals that, once reached, enable some new feature or effect
 These are checked from the Main Loop
 */
 
 
-var targets = [];
+var targets = [
+	{
+		title: "Sell Ten Bikes",
+		done: false,
+		effectDescription: "Enable hiring sales staff",
+		trigger: function(){return gameData.bikesSold >= 10},
+		effect: function(){
+			document.getElementById("staff-sales-label").classList.remove("hidden");
+			document.getElementById("hire-sales").classList.remove("hidden");
+			queueNewsTicker("Bike Shop hires first sales person.")
+		}
+	},
 
-var target1 = {
-	title: "Sell Ten Bikes",
-	done: false,
-	effectDescription: "Enable hiring sales staff",
-	trigger: function(){return gameData.bikesSold >= 10},
-	effect: function(){
-		document.getElementById("staff-sales-label").classList.remove("hidden");
-		document.getElementById("hire-sales").classList.remove("hidden");
-		console.log(target1.title);
+	{
+		title: "Build 100 Bikes",
+		done: false,
+		effectDescription: "Enable hiring mechanics",
+		trigger: function(){return gameData.bikes + gameData.bikesSold >= 100},
+		effect: function(){
+			document.getElementById("staff-mechanics-label").classList.remove("hidden");
+			document.getElementById("hire-mechanic").classList.remove("hidden");
+			queueNewsTicker("Bike Shop hires first mechanic.")
+		}
+	},
+
+	{
+		title: "Hired Sales and Mechanics",
+		done: false,
+		effectDescription: "Enable business projects",
+		trigger: function(){return gameData.salesPeople > 0 && gameData.mechanics > 0 && gameData.timer % 20 === 0},
+		effect: function(){
+			document.getElementById("phase2").classList.remove("hidden");
+			console.log("The machine is alive. Now focus on business projects")
+			projects[0].status =  projectStatus.AVAILABLE;
+			projects[1].status = projectStatus.AVAILABLE;
+		}
 	}
-}
-
-targets.push(target1);
-
-var target2 = {
-	title: "Build 100 Bikes",
-	done: false,
-	effectDescription: "Enable hiring mechanics",
-	trigger: function(){return gameData.bikes + gameData.bikesSold >= 100},
-	effect: function(){
-		document.getElementById("staff-mechanics-label").classList.remove("hidden");
-		document.getElementById("hire-mechanic").classList.remove("hidden");
-		console.log(target2.title);
-	}
-}
-
-targets.push(target2);
+];

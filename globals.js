@@ -7,6 +7,10 @@ var gameData = {
 	bikesSold: 0,
 	partsPerBike: 100,
 	bikeMSRP: 100,
+
+	newsTickerText: "New bike shop opens on Williamson Street!",
+	newsTickerNext: [],
+	newsTickerTimeAtLastUpdate: 0,
 	
 	bikeParts: 1000,
 	bikePartsBaseCost: 100,
@@ -22,6 +26,13 @@ var gameData = {
 	salesRate: 0, //sales per minute over last 5 minutes
 
 	mechanics: 0,
-	mechanicBaseTimePerBike: 30,//bike built every x seconds
-	mechanicHiringCost: 1000
+	mechanicBaseTimePerBike: 30,//seconds per bike per mechanic
+	mechanicHiringCost: 1000,
+
 }
+
+var news = [
+	"My first news update!",
+	"Another piece of news",
+	"These are random news items",
+	]

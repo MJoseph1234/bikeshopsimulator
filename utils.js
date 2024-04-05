@@ -11,3 +11,8 @@ function showHidden() {
 	document.styleSheets[0].deleteRule(ruleIndex);
 	document.styleSheets[0].insertRule(".hidden { opacity: 0.33; disabled: true;}", ruleIndex);
 }
+
+function easy() {
+	gameData.demand = 80;
+	gameData.salesPersonSuccessRate = 80;
+}

@@ -7,6 +7,7 @@ body {
 div.column {
 	width: 25%;
 	float: left;
+	padding-right: 20px;
 }
 
 h4 {
@@ -40,9 +41,9 @@ h4 {
 	-moz-transform: translateX(100%);
 	-webkit-transform: translateX(100%);
 	transform: translateX(100%);
-	-moz-animation: scroll-left 20s linear 3;
-	-webkit-animation: scroll-left 20s linear 3;
-	animation: scroll-left 20s linear 3;
+	-moz-animation: scroll-left 20s linear infinite;
+	-webkit-animation: scroll-left 20s linear infinite;
+	animation: scroll-left 20s linear infinite;
 }
 
 @-moz-keyframes scroll-left {
@@ -74,4 +75,35 @@ h4 {
 		-webkit-transform: translateX(-100%);
 		transform: translateX(-100%);
 	}
+}
+
+.project-container {
+	border: 1px solid black;
+	margin: 5px;
+}
+.project-container:hover {
+	background-color: lightgrey;
+}
+
+.project-container.disabled {
+	opacity: 50%;
+}
+.project-container.disabled:hover {
+	background-color: white;
+}
+
+.project-container .project-title {
+	text-align: center;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+.project-container .project-cost {
+	text-align: center;
+	margin: 0px;
+}
+.project-container .project-description {
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 10px;
 }

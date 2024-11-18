@@ -25,14 +25,18 @@ var gameData = {
 	salesRateData: [0],
 	salesRate: 0, //sales per minute over last 5 minutes
 
-	mechanics: [],
+	mechanics: 0,
+	mechanicTimers: [],
 	mechanicBaseTimePerBike: 30,//seconds per bike per mechanic
 	mechanicHiringCost: 1000,
 
 }
 
 var news = [
-	"My first news update!",
-	"Another piece of news",
-	"These are random news items",
+	"Advocates Call for More Bike Paths",
+	"Research Shows Bikes are Good For You",
+	"Study Shows Bikes are Faster for Inner City Delivery",
+	"Scientists Discover You Should Bike More",
+	"Researchers find no connection between bicycles and bigfoot sightings",
+	"Opinion: Patriots Say More Bikes = More Freedom"
 	]

@@ -29,6 +29,26 @@ h4 {
 	position: relative;
 }
 
+.progress-bar {
+	margin: 1em;
+	height: 25px;
+	border: 1px solid black;
+	padding: 0px 0px;
+}
+
+.progress-bar .progress {
+	width: var(--progress);
+	height: 100%;
+	background: darkgrey;
+	transition: width 1s linear;
+}
+
+@property --progress {
+	syntax: "<length>";
+	initial-value: 0%;
+	inherits: true;
+}
+
 #newsTicker p {
 	font-size: 1.5em;
 	font-weight: bold;

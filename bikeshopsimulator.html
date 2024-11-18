@@ -12,19 +12,48 @@
 		<h3>People On Bikes: <span id="bikes-sold">0</span></h3>
 		
 		<div class="column" id="phase1">
-			<h4>Inventory</h4>
+			<h4>Sales Department</h4>
 
-			<p>Bikes: <span id="bikes-built">0</span></p>
-			<button id="build-bike" onClick="buildBike()">Build Bike</button>
+			<p>Unsold Bikes: <span id="bikes-built">0</span></p>
 			
-			<p>Bike Parts: <span id="bike-parts">1000</span></p>
+			
+			<button id="sell-bike" disabled onClick="sellBike()">Sell Bike</button> Customers: <span id="customers">0</span>
+
+			<h4>Service Department</h4>
+
+			<button id="build-bike" onClick="buildBike()">Build Bike</button>
+			Remaining Bike Parts: <span id="bike-parts">1000</span>
+
+
+			<div id="mechanic-progress-bars">
+				<div id="mech-1-timer" class="progress-bar hidden">
+					<div id="mech-1-progress" class="progress hidden">
+					</div>
+				</div>
+				<div id="mech-2-timer" class="progress-bar hidden">
+					<div id="mech-2-progress" class="progress hidden">
+					</div>
+				</div>
+				<div id="mech-3-timer" class="progress-bar hidden">
+					<div id="mech-3-progress" class="progress hidden">
+					</div>
+				</div>
+				<div id="mech-4-timer" class="progress-bar hidden">
+					<div id="mech-4-progress" class="progress hidden">
+					</div>
+				</div>
+				<div id="mech-5-timer" class="progress-bar hidden">
+					<div id="mech-5-progress" class="progress hidden">
+					</div>
+				</div>
+			</div>
+			
 			<button id="buy-bike-parts" disabled onClick="buyBikeParts()">Buy Parts</button>
-			<p>Cost: $<span id="parts-cost">100</span></p>
+			Cost: $<span id="parts-cost">100</span>
 
-			<p>Customers: <span id="customers">0</span></p>
-			<button id="sell-bike" disabled onClick="sellBike()">Sell Bike</button>
-
+			
 			<h4>Business</h4>
+
 			<p>Money: $<span id="money">0</span></p>
 
 			<p id="staff-sales-label" class="hidden">Sales People: <span id="staff-sales">0</span></p>

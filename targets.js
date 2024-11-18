@@ -14,7 +14,7 @@ var targets = [
 		effect: function(){
 			document.getElementById("staff-sales-label").classList.remove("hidden");
 			document.getElementById("hire-sales").classList.remove("hidden");
-			queueNewsTicker("Bike Shop hires first sales person.")
+			queueNewsTicker("Bike Shop hires first sales person.");
 		}
 	},
 
@@ -26,7 +26,7 @@ var targets = [
 		effect: function(){
 			document.getElementById("staff-mechanics-label").classList.remove("hidden");
 			document.getElementById("hire-mechanic").classList.remove("hidden");
-			queueNewsTicker("Bike Shop hires first mechanic.")
+			queueNewsTicker("Bike Shop hires first mechanic.");
 		}
 	},
 

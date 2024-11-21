@@ -46,18 +46,21 @@ function mechanicShift() {
 			continue;
 		}
 
-		gameData.mechanicTimers[i] += 1;
-
 		var progElement = document.getElementById(`mech-${i+1}-timer`);
 		progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
-		progElement.style.setProperty('--progress', `${progValue}%`);
 
-		if (progValue >= 100) {
+		if (
+		 >= 100) {
 			for (let j = 0; j < mechsOnTimer; j++) {
 				buildBike();
 				progElement.style.setProperty('--progress', '0%');
 			}
 			gameData.mechanicTimers[i] = 0;
+		}
+		else {
+			gameData.mechanicTimers[i] += 1;
+			progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
+			progElement.style.setProperty('--progress', `${progValue}%`);
 		}
 	}
 }

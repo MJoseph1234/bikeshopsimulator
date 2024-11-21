@@ -23,7 +23,6 @@ var gameLoop = window.setInterval(function() {
 }, 1000)
 
 ////////// domManager.js /////////
-//this is my test
 function refreshCounters() {
 	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold.toLocaleString();
 	document.getElementById("bikes-built").innerHTML = gameData.bikes;
@@ -272,11 +271,8 @@ function mechanicShift() {
 			continue;
 		}
 
-		gameData.mechanicTimers[i] += 1;
-
 		var progElement = document.getElementById(`mech-${i+1}-timer`);
 		progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
-		progElement.style.setProperty('--progress', `${progValue}%`);
 
 		if (progValue >= 100) {
 			for (let j = 0; j < mechsOnTimer; j++) {
@@ -284,6 +280,11 @@ function mechanicShift() {
 				progElement.style.setProperty('--progress', '0%');
 			}
 			gameData.mechanicTimers[i] = 0;
+		}
+		else {
+			gameData.mechanicTimers[i] += 1;
+			progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
+			progElement.style.setProperty('--progress', `${progValue}%`);
 		}
 	}
 }

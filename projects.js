@@ -5,10 +5,10 @@ These improve some rate or chance, or enable a new action to appear
 */
 
 const projectStatus = {
-	UNAVAILABLE: "unavailable",
-	AVAILABLE: "available",
-	ACTIVE: "active",
-	DONE: "done"
+	UNAVAILABLE: "unavailable", // not allowed in project list
+	AVAILABLE: "available", // could show up in project list
+	ACTIVE: "active", // currently in project list
+	DONE: "done" // purchased
 }
 
 var projects = [

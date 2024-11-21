@@ -70,3 +70,6 @@ GitHub.sublime-settings
 # End of https://www.toptal.com/developers/gitignore/api/macos,sublimetext
 
 docs/
+
+jsConcat.py
+Makefile

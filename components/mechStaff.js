@@ -37,8 +37,8 @@ function mechanicShift() {
 	// const progValue = Math.floor(100*(ts - gameData.mechanics[0])/gameData.mechanicBaseTimePerBike);
 	// progress.style.setProperty("--progress", `${progValue}%`);
 	
-	var mechsOnTimer = 0
-	var progValue = 0
+	var mechsOnTimer = 0;
+	var progValue = 0;
 	for (let i = 0; i < gameData.mechanicTimers.length; i++) {
 		mechsOnTimer = Math.floor(gameData.mechanics/5) + (gameData.mechanics%5>=i);
 		
@@ -49,8 +49,7 @@ function mechanicShift() {
 		var progElement = document.getElementById(`mech-${i+1}-timer`);
 		progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
 
-		if (
-		 >= 100) {
+		if (progValue >= 100) {
 			for (let j = 0; j < mechsOnTimer; j++) {
 				buildBike();
 				progElement.style.setProperty('--progress', '0%');

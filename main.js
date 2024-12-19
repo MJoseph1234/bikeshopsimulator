@@ -87,7 +87,7 @@ function updateNewsTicker(){
 	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 100) {
 		next = news[Math.floor(Math.random()*news.length)]
 	}
-	else{
+	else {
 		return;
 	}
 	console.log(next);
@@ -95,6 +95,15 @@ function updateNewsTicker(){
 	gameData.NewsTickerText = next;
 	document.getElementById("tickerText").innerHTML = next;
 }
+
+var news = [
+	"Advocates Call for More Bike Paths",
+	"Research Shows Bikes are Good For You",
+	"Study Shows Bikes are Faster for Inner City Delivery",
+	"Scientists Discover You Should Bike More",
+	"Researchers find no connection between bicycles and bigfoot sightings",
+	"Opinion: Patriots Say More Bikes = More Freedom",
+	]
 ///////// shopOperations.js //////////
 function checkTargets() {
 	targets.forEach(target => {
@@ -262,8 +271,8 @@ function mechanicShift() {
 	// const progValue = Math.floor(100*(ts - gameData.mechanics[0])/gameData.mechanicBaseTimePerBike);
 	// progress.style.setProperty("--progress", `${progValue}%`);
 	
-	var mechsOnTimer = 0
-	var progValue = 0
+	var mechsOnTimer = 0;
+	var progValue = 0;
 	for (let i = 0; i < gameData.mechanicTimers.length; i++) {
 		mechsOnTimer = Math.floor(gameData.mechanics/5) + (gameData.mechanics%5>=i);
 		

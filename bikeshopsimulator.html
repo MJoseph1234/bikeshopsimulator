@@ -10,8 +10,6 @@
 			<p id="tickerText">New bike shop opens on Williamson Street!</p>
 		</div>
 		<h3>People On Bikes: <span id="bikes-sold">0</span></h3>
-
-		<p id="time">Day 0, 0:00</p>
 		
 		<div class="column" id="phase1">
 			<h4>Sales Department</h4>
@@ -59,10 +57,10 @@
 			<p>Money: $<span id="money">0</span></p>
 
 			<p id="staff-sales-label" class="hidden">Sales People: <span id="staff-sales">0</span></p>
-			<button id="hire-sales" class="hidden" disabled onClick="hireSales()">Hire Salesperson</button>
+			<button id="hire-sales" class="hidden" disabled onClick="hireSales()" title="Salespeople have a chance of selling a bike when a customer is in the store">Hire Salesperson</button>
 			
 			<p id="staff-mechanics-label" class="hidden">Staff Mechanics: <span id="staff-mechanics">0</span></p>
-			<button id="hire-mechanic" class="hidden" disabled onClick="hireMechanic()">Hire Mechanic</button>
+			<button id="hire-mechanic" class="hidden" disabled onClick="hireMechanic()" title="Mechanics build bikes when there's enough bike parts available">Hire Mechanic</button>
 		</div>
 		<div class="column hidden" id="phase2">
 			<h4>Shop Projects</h4>

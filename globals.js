@@ -32,11 +32,3 @@ var gameData = {
 
 }
 
-var news = [
-	"Advocates Call for More Bike Paths",
-	"Research Shows Bikes are Good For You",
-	"Study Shows Bikes are Faster for Inner City Delivery",
-	"Scientists Discover You Should Bike More",
-	"Researchers find no connection between bicycles and bigfoot sightings",
-	"Opinion: Patriots Say More Bikes = More Freedom"
-	]

@@ -12,6 +12,10 @@ function hireMechanic() {
 	gameData.money -= gameData.mechanicHiringCost;
 	gameData.mechanics += 1;
 
+	if (gameData.mechanics == 1) {
+		queueNewsTicker("Bike Shop hires first mechanic.");
+	}
+
 	if (gameData.mechanics <= 5){
 		//show next mechanic timer bar
 		const timer = document.getElementById(`mech-${gameData.mechanics}-timer`);

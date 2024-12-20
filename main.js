@@ -216,6 +216,11 @@ function hireSales() {
 	}
 	gameData.money -= gameData.salesPersonHiringCost;
 	gameData.salesPeople += 1;
+
+	if (gameData.salesPeople == 1) {
+		queueNewsTicker("Bike Shop hires first sales person.");
+	}
+
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
 	document.getElementById("hire-sales").disabled = !canHireSales();
@@ -245,6 +250,10 @@ function hireMechanic() {
 	}
 	gameData.money -= gameData.mechanicHiringCost;
 	gameData.mechanics += 1;
+
+	if (gameData.mechanics == 1) {
+		queueNewsTicker("Bike Shop hires first mechanic.");
+	}
 
 	if (gameData.mechanics <= 5){
 		//show next mechanic timer bar

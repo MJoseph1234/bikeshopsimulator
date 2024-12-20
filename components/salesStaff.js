@@ -7,6 +7,11 @@ function hireSales() {
 	}
 	gameData.money -= gameData.salesPersonHiringCost;
 	gameData.salesPeople += 1;
+
+	if (gameData.salesPeople == 1) {
+		queueNewsTicker("Bike Shop hires first sales person.");
+	}
+
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
 	document.getElementById("hire-sales").disabled = !canHireSales();

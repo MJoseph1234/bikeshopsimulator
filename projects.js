@@ -21,7 +21,7 @@ var projects = [
 		effect: function() {
 			gameData.money -= 1000;
 			gameData.salesPersonSuccessRate *= 1.1;
-			console.log("Basic sales training done")
+			console.log("Basic sales training done");
 		}
 	},
 
@@ -34,7 +34,7 @@ var projects = [
 		effect: function() {
 			gameData.money -= 1000;
 			gameData.mechanicBaseTimePerBike = Math.floor(gameData.mechanicBaseTimePerBike * 0.9);
-			console.log("Basic mechanic training done")
+			console.log("Basic mechanic training done");
 		}
 	},
 
@@ -44,4 +44,15 @@ var projects = [
 		costStr: "$1,000",
 		purchased: 0,
 	},
+
+	{
+		title: 'Shop Logo Tee Shirts',
+		status: projectStatus.UNAVAILABLE,
+		costStr: "$1,000, 200 bikes sold",
+		canAfford: function() {return gameData.money >= 1000 && gameData.bikesSold >= 200},
+		effectDescription: "Shop tees make you look cool",
+		effect: function() {
+			gameData.demand = 80;
+		}
+	}
 ];

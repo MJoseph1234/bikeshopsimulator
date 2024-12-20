@@ -7,7 +7,7 @@ var gameLoop = window.setInterval(function() {
 	gameData.timer += 1;
 	checkTargets();
 	salesShift();
-	mechanicShift()
+	mechanicShift();
 	updateCustomers();
 	adjustBikePartsPrice();
 	manageButtons();

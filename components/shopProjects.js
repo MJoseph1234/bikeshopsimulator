@@ -15,6 +15,7 @@ function displayProject(project, position) {
 	projectElem.classList.remove("hidden");
 	
 	projectElem.onclick = function() {
+		if (!project.canAfford()) {return;}
 		project.effect();
 		project.status = projectStatus.DONE;
 		projectElem.classList.toggle("hidden");
@@ -31,11 +32,12 @@ function displayProject(project, position) {
  */
 function listProjectsWithStatus(status) {
 	var projectList = [];
-	for (let i=0; i < projects.length; i++) {
-		if (projects[i].hasOwnProperty("status") && projects[i].status == status) {
-			projectList.push(i);
+
+	projects.forEach((project) => {
+		if (project.status == status) {
+			projectList.push(project);
 		}
-	}
+	});
 	return projectList
 }
 
@@ -47,7 +49,7 @@ function refreshProjectDOM() {
 	var active = listProjectsWithStatus(projectStatus.ACTIVE);
 	for (let i = 0; i < 5; i++) {
 		if (i < active.length) {
-			displayProject(projects[active[i]], i);
+			displayProject(active[i], i);
 		}
 		else {
 			projectElem = document.getElementById("p" + i);
@@ -60,20 +62,22 @@ function refreshProjectDOM() {
 }
 
 /**
- * move available/queued projects to the active list up to the active list limit
- * of five.
+ * If there's fewer than five active projects, add more from the list of
+ * available/queued projects. For each active project, check if it can be
+ * purchased or not and update the dom accordingly.
  */
 function updateActiveProjects() {
 	var active = listProjectsWithStatus(projectStatus.ACTIVE);
 	var available = listProjectsWithStatus(projectStatus.AVAILABLE);
 	
 	while (active.length < 5 && available.length > 0) {
-		projects[available[0]].status = projectStatus.ACTIVE;
-		active.push(available.shift());
-		displayProject(projects[active[active.length - 1]], active.length - 1);
+		prj = available.shift();
+		prj.status = projectStatus.ACTIVE;
+		active.push(prj);
+		displayProject(prj, active.length - 1);
 	} 
 	for (let i = 0; i < active.length; i++) {
 		projectElem = document.getElementById("p" + i);
-		projectElem.classList.toggle("disabled", !projects[active[i]].canAfford());
+		projectElem.classList.toggle("disabled", !active[i].canAfford());
 	}
 }

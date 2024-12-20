@@ -21,7 +21,6 @@ var projects = [
 		effect: function() {
 			gameData.money -= 1000;
 			gameData.salesPersonSuccessRate *= 1.1;
-			console.log("Basic sales training done");
 		}
 	},
 
@@ -34,7 +33,6 @@ var projects = [
 		effect: function() {
 			gameData.money -= 1000;
 			gameData.mechanicBaseTimePerBike = Math.floor(gameData.mechanicBaseTimePerBike * 0.9);
-			console.log("Basic mechanic training done");
 		}
 	},
 

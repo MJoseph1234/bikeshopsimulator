@@ -110,6 +110,7 @@ function checkTargets() {
 		if (target.trigger() && !(target.done)) {
 			target.done = true;
 			target.effect();
+			console.log(target.title + ": Done!")
 		}
 	})
 }
@@ -190,6 +191,7 @@ function sellBike() {
 function canBuyBikeParts(){
 	return(gameData.money >= gameData.bikePartsCost);
 }
+
 function buyBikeParts() {
 	if (!canBuyBikeParts()) {
 		return
@@ -329,6 +331,7 @@ function displayProject(project, position) {
 		project.status = projectStatus.DONE;
 		projectElem.classList.toggle("hidden");
 		refreshProjectDOM();
+		console.log(project.title + ": Done");
 	};
 }
 
@@ -347,7 +350,7 @@ function listProjectsWithStatus(status) {
 			projectList.push(project);
 		}
 	});
-	return projectList
+	return projectList;
 }
 
 /**

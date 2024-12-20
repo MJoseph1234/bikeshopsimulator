@@ -44,13 +44,13 @@ var projects = [
 	},
 
 	{
-		title: 'Shop Logo Tee Shirts',
+		title: 'Shop Stickers',
 		status: projectStatus.UNAVAILABLE,
 		costStr: "$1,000, 200 bikes sold",
 		canAfford: function() {return gameData.money >= 1000 && gameData.bikesSold >= 200},
-		effectDescription: "Shop tees make you look cool",
+		effectDescription: "Each bike sold gets a sticker with the shop logo. It's like free advertising.",
 		effect: function() {
-			gameData.demand = 80;
+			gameData.demand += 10;
 		}
 	}
 ];

@@ -3,6 +3,7 @@ function checkTargets() {
 		if (target.trigger() && !(target.done)) {
 			target.done = true;
 			target.effect();
+			console.log(target.title + ": Done!")
 		}
 	})
 }
@@ -83,6 +84,7 @@ function sellBike() {
 function canBuyBikeParts(){
 	return(gameData.money >= gameData.bikePartsCost);
 }
+
 function buyBikeParts() {
 	if (!canBuyBikeParts()) {
 		return

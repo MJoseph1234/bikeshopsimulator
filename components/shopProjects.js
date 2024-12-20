@@ -20,6 +20,7 @@ function displayProject(project, position) {
 		project.status = projectStatus.DONE;
 		projectElem.classList.toggle("hidden");
 		refreshProjectDOM();
+		console.log(project.title + ": Done");
 	};
 }
 
@@ -38,7 +39,7 @@ function listProjectsWithStatus(status) {
 			projectList.push(project);
 		}
 	});
-	return projectList
+	return projectList;
 }
 
 /**
@@ -57,6 +58,8 @@ function refreshProjectDOM() {
 			projectElem.getElementsByClassName("project-cost")[0].innerHTML = "";
 			projectElem.getElementsByClassName("project-description")[0].innerHTML = "";
 			projectElem.onclick = null;
+			projectElem.classList("hidden", true);
+
 		}
 	}
 }

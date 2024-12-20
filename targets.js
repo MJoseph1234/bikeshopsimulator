@@ -4,7 +4,6 @@ Targets are passive goals that, once reached, enable some new feature or effect
 These are checked from the Main Loop
 */
 
-
 var targets = [
 	{
 		title: "Sell Ten Bikes",
@@ -42,9 +41,9 @@ var targets = [
 	},
 
 	{
-		title: "Get Shop Tees",
+		title: "Get Bike Stickers",
 		done: false,
-		effectDescription: "Sell shop logo tee shirts",
+		effectDescription: "All bikes get the shop logo on a sticker",
 		trigger: function() {return gameData.bikesSold > 100},
 		effect: function() {
 			projects[3].status = projectStatus.AVAILABLE;

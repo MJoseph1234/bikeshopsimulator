@@ -14,7 +14,6 @@ var targets = [
 		effect: function(){
 			document.getElementById("staff-sales-label").classList.remove("hidden");
 			document.getElementById("hire-sales").classList.remove("hidden");
-			queueNewsTicker("Bike Shop hires first sales person.");
 		}
 	},
 
@@ -26,7 +25,6 @@ var targets = [
 		effect: function(){
 			document.getElementById("staff-mechanics-label").classList.remove("hidden");
 			document.getElementById("hire-mechanic").classList.remove("hidden");
-			queueNewsTicker("Bike Shop hires first mechanic.");
 		}
 	},
 
@@ -40,6 +38,16 @@ var targets = [
 			console.log("The machine is alive. Now focus on business projects")
 			projects[0].status =  projectStatus.AVAILABLE;
 			projects[1].status = projectStatus.AVAILABLE;
+		}
+	},
+
+	{
+		title: "Get Shop Tees",
+		done: false,
+		effectDescription: "Sell shop logo tee shirts",
+		trigger: function() {return gameData.bikesSold > 100},
+		effect: function() {
+			projects[3].status = projectStatus.AVAILABLE;
 		}
 	}
 ];

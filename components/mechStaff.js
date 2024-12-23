@@ -15,6 +15,9 @@ function mechanicShift() {
 			gameData.mechanicTimers.push(0);
 		}
 		else {
+			if (!canBuildBike()) {
+				continue;
+			}
 			var mechsOnTimer = Math.floor(gameData.mechanics/3) + (gameData.mechanics%3>=i);
 
 			// if there's not enough parts for ALL the mechanics on that timer,

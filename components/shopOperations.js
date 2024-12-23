@@ -139,7 +139,7 @@ function hireEmployee() {
 }
 
 function changeEmployeeFocus(value) {
-	gameData.mechanics = value;
+	gameData.mechanics = Math.min(value, gameData.employees);
 	gameData.salesPeople = gameData.employees - value;
 	document.getElementById("employee-focus-slider").title = `Sales: ${gameData.salesPeople} Mechanics: ${gameData.mechanics}`
 }

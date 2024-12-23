@@ -5,14 +5,12 @@ function refreshCounters() {
 	document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 	document.getElementById("customers").innerHTML = gameData.customers;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
-	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
+	document.getElementById("employees").innerHTML = gameData.employees;
 }
 
 function manageButtons() {
 	document.getElementById("sell-bike").disabled = !canSellBike();
 	document.getElementById("build-bike").disabled = !canBuildBike();
 	document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
-	document.getElementById("hire-sales").disabled = !canHireSales();
-	document.getElementById("hire-mechanic").disabled = !canHireMechanic();
+	document.getElementById("hire-employee").disabled = !canHireEmployee();
 }

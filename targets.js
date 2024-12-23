@@ -6,24 +6,16 @@ These are checked from the Main Loop
 
 var targets = [
 	{
-		title: "Sell Ten Bikes",
+		title: "Hire employees",
 		done: false,
-		effectDescription: "Enable hiring sales staff",
-		trigger: function(){return gameData.bikesSold >= 10},
+		effectDescription: "Enable hiring employees",
+		trigger: function(){return(gameData.bikesSold >= 10 || (gameData.bikes + gameData.bikesSold >= 100))},
 		effect: function(){
-			document.getElementById("staff-sales-label").classList.remove("hidden");
-			document.getElementById("hire-sales").classList.remove("hidden");
-		}
-	},
-
-	{
-		title: "Build 100 Bikes",
-		done: false,
-		effectDescription: "Enable hiring mechanics",
-		trigger: function(){return gameData.bikes + gameData.bikesSold >= 100},
-		effect: function(){
-			document.getElementById("staff-mechanics-label").classList.remove("hidden");
-			document.getElementById("hire-mechanic").classList.remove("hidden");
+			document.getElementById("employee-label").classList.remove("hidden");
+			document.getElementById("hire-employee").classList.remove("hidden");
+			document.getElementById("employee-focus-slider-label").classList.remove("hidden");
+			document.getElementById("employee-focus-slider").classList.remove("hidden");
+			document.getElementById('employee-focus').classList.remove("hidden");
 		}
 	},
 

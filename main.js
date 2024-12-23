@@ -1,5 +1,5 @@
 if (localStorage.getItem("bikeShopSimulatorSave") != null) {
-	loadGame()
+	//loadGame();
 }
 
 var gameLoop = window.setInterval(function() {
@@ -30,16 +30,14 @@ function refreshCounters() {
 	document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 	document.getElementById("customers").innerHTML = gameData.customers;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
-	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
+	document.getElementById("employees").innerHTML = gameData.employees;
 }
 
 function manageButtons() {
 	document.getElementById("sell-bike").disabled = !canSellBike();
 	document.getElementById("build-bike").disabled = !canBuildBike();
 	document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
-	document.getElementById("hire-sales").disabled = !canHireSales();
-	document.getElementById("hire-mechanic").disabled = !canHireMechanic();
+	document.getElementById("hire-employee").disabled = !canHireEmployee();
 }
 ////////// gameState.js /////////
 function saveGame() {
@@ -208,25 +206,49 @@ function buyBikeParts() {
 	//This (and really any function that costs money) should also check
 	//to disable any other thing that costs money
 }
-////////// salesStaff.js //////////
-function canHireSales() {
-	return(gameData.money >= gameData.salesPersonHiringCost && gameData.bikes > 0);
+
+function canHireEmployee() {
+	return(gameData.money >= gameData.employeeHiringCost
+		&& (gameData.bikes > 0 
+			|| gameData.bikeParts >= gameData.partsPerBike
+			|| gameData.money > gameData.BikePartsBaseCost
+			)
+		);
 }
-function hireSales() {
-	if (!canHireSales()) {
+
+function hireEmployee() {
+	if (!canHireEmployee()) {
 		return
 	}
-	gameData.money -= gameData.salesPersonHiringCost;
-	gameData.salesPeople += 1;
+	
+	gameData.money -= gameData.employeeHiringCost;
+	gameData.employees += 1;
 
-	if (gameData.salesPeople == 1) {
-		queueNewsTicker("Bike Shop hires first sales person.");
+	if (gameData.employees == 1) {
+		queueNewsTicker("Bike shop hires first employee");
+		document.getElementById("employee-focus-slider").disabled = false;
+
 	}
 
+	document.getElementById("employees").innerHTML = gameData.employees;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("staff-sales").innerHTML = gameData.salesPeople;
-	document.getElementById("hire-sales").disabled = !canHireSales();
+	document.getElementById("hire-employee").disables = !canHireEmployee();
+
+	let slider = document.getElementById("employee-focus-slider")
+	let currentValue = slider.value;
+	let ratio = slider.max / currentValue;
+	slider.max = gameData.employees;
+	slider.value = gameData.employees / ratio;
+	document.getElementById("all-mech-tick").value = slider.max;
+	changeEmployeeFocus(slider.value);
 }
+
+function changeEmployeeFocus(value) {
+	gameData.mechanics = value;
+	gameData.salesPeople = gameData.employees - value;
+	document.getElementById("employee-focus-slider").title = `Sales: ${gameData.salesPeople} Mechanics: ${gameData.mechanics}`
+}
+////////// salesStaff.js //////////
 function salesShift() {
 	if (!canSellBike() || gameData.salesPeople === 0) {
 		return
@@ -239,72 +261,46 @@ function salesShift() {
 	}
 }
 /////////// mechStaff.js ///////////
-function canHireMechanic() {
-	// don't softlock
-	// so, need enough money to hire + at least one bike to sell or enough parts to build a bike or enough money to buy parts
-	return(gameData.money >= gameData.mechanicHiringCost 
-		&& (gameData.bikes > 0 || gameData.bikeParts >= gameData.partsPerBike || gameData.money > gameData.BikePartsBaseCost ))
-}
-
-function hireMechanic() {
-	if (!canHireMechanic()) {
-		return
-	}
-	gameData.money -= gameData.mechanicHiringCost;
-	gameData.mechanics += 1;
-
-	if (gameData.mechanics == 1) {
-		queueNewsTicker("Bike Shop hires first mechanic.");
-	}
-
-	if (gameData.mechanics <= 5){
-		//show next mechanic timer bar
-		const timer = document.getElementById(`mech-${gameData.mechanics}-timer`);
-		const prog = document.getElementById(`mech-${gameData.mechanics}-progress`);
-		timer.classList.remove("hidden");
-		prog.classList.remove("hidden");
-		timer.style.setProperty("--progress", `0%`);
-		//set new mechanic timer
-		gameData.mechanicTimers.push(0);
-	}
-	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("staff-mechanics").innerHTML = gameData.mechanics;
-	document.getElementById("hire-mechanic").disabled = !canHireMechanic();
-}
-
 function mechanicShift() {
-	if (gameData.mechanics.length <= 0) {
+	if (gameData.mechanics <= 0) {
 		return
 	}
-	// let ts = gameData.timer;
 
-	// let progress = document.getElementById("mechanic-progress-bar");
-	// const progValue = Math.floor(100*(ts - gameData.mechanics[0])/gameData.mechanicBaseTimePerBike);
-	// progress.style.setProperty("--progress", `${progValue}%`);
-	
-	var mechsOnTimer = 0;
-	var progValue = 0;
-	for (let i = 0; i < gameData.mechanicTimers.length; i++) {
-		mechsOnTimer = Math.floor(gameData.mechanics/5) + (gameData.mechanics%5>=i);
-		
-		if (gameData.bikeParts < (mechsOnTimer * 100)) {
-			continue;
-		}
-
-		var progElement = document.getElementById(`mech-${i+1}-timer`);
-		progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
-
-		if (progValue >= 100) {
-			for (let j = 0; j < mechsOnTimer; j++) {
-				buildBike();
-				progElement.style.setProperty('--progress', '0%');
-			}
-			gameData.mechanicTimers[i] = 0;
+	// loop through the mechanic timers
+	for (let i = 1; i <= Math.min(gameData.mechanics, 3); i++) {
+		// reveal a new mechanic timer (up to 3 timers)
+		if (i > gameData.mechanicTimers.length) {
+			const timer = document.getElementById(`mech-${i}-timer`);
+			const prog = document.getElementById(`mech-${i}-progress`);
+			timer.style.setProperty("--progress", `0%`);
+			timer.classList.remove("hidden");
+			prog.classList.remove("hidden");
+			gameData.mechanicTimers.push(0);
 		}
 		else {
-			gameData.mechanicTimers[i] += 1;
-			progValue = Math.min(Math.floor(100*gameData.mechanicTimers[i]/gameData.mechanicBaseTimePerBike), 100);
-			progElement.style.setProperty('--progress', `${progValue}%`);
+			var mechsOnTimer = Math.floor(gameData.mechanics/3) + (gameData.mechanics%3>=i);
+
+			// if there's not enough parts for ALL the mechanics on that timer,
+			// skip the timer, it should not move.
+			if (gameData.bikeParts < (mechsOnTimer * gameData.partsPerBike)) {
+				continue;
+			}
+
+			const timer = document.getElementById(`mech-${i}-timer`);
+			let progValue = Math.min(Math.floor(100 * gameData.mechanicTimers[i-1] / gameData.mechanicBaseTimePerBike), 100);
+
+			if (progValue >= 100) {
+				for (let j = 0; j < mechsOnTimer; j++) {
+					buildBike();
+					timer.style.setProperty('--progress', '0%');
+				}
+				gameData.mechanicTimers[i-1] = 0;
+			}
+			else {
+				gameData.mechanicTimers[i-1] += 1;
+				let progValue = Math.min(Math.floor(100 * gameData.mechanicTimers[i-1] / gameData.mechanicBaseTimePerBike), 100);
+				timer.style.setProperty('--progress', `${progValue}%`);
+			}
 		}
 	}
 }
@@ -369,6 +365,8 @@ function refreshProjectDOM() {
 			projectElem.getElementsByClassName("project-cost")[0].innerHTML = "";
 			projectElem.getElementsByClassName("project-description")[0].innerHTML = "";
 			projectElem.onclick = null;
+			projectElem.classList("hidden", true);
+
 		}
 	}
 }

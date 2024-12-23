@@ -1,5 +1,5 @@
 if (localStorage.getItem("bikeShopSimulatorSave") != null) {
-	loadGame()
+	//loadGame();
 }
 
 var gameLoop = window.setInterval(function() {

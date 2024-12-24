@@ -32,11 +32,13 @@ datalist {
 	writing-mode: vertical-lr;
 	margin: auto;
 	width: 80%;
-
 }
 option {
 	padding: 0;
 	transform: rotate(-45deg);
+}
+option:hover {
+	color: grey;
 }
 
 #newsTicker {

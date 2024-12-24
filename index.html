@@ -10,19 +10,18 @@
 			<p id="tickerText">New bike shop opens on Williamson Street!</p>
 		</div>
 		<h3>People On Bikes: <span id="bikes-sold">0</span></h3>
-		
+
 		<div class="column" id="phase1">
 			<h4>Sales Department</h4>
 
 			<p>Unsold Bikes: <span id="bikes-built">0</span></p>
-			
+
 			<button id="sell-bike" disabled onClick="sellBike()">Sell Bike</button> Customers: <span id="customers">0</span>
 
 			<h4>Service Department</h4>
 
 			<button id="build-bike" onClick="buildBike()">Build Bike</button>
 			Remaining Bike Parts: <span id="bike-parts">1000</span>
-
 
 			<div id="mechanic-progress-bars">
 				<div id="mech-1-timer" class="progress-bar hidden">
@@ -38,7 +37,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<button id="buy-bike-parts" disabled onClick="buyBikeParts()">Buy Parts</button>
 			Cost: $<span id="parts-cost">100</span>
 
@@ -56,8 +55,8 @@
 				<option id="all-sales-tick" value="0" label="Sales" title="Sales staff have a chance of selling a bike while a customer is in the store"></option>
 				<option id="all-mech-tick" value="1" label="Mechanics" title="Mechanics build bikes when there's enough bike parts available"></option>
 			</datalist>
-
 		</div>
+
 		<div class="column hidden" id="phase2">
 			<h4>Shop Projects</h4>
 			<div id="p0" class="project-container hidden">
@@ -86,12 +85,11 @@
 				<p class="project-description"></p>
 			</div>
 		</div>
-	
+
 		<script type="text/javascript" src="globals.js" charset="utf-8"></script>
 		<script type="text/javascript" src="targets.js" charset="utf-8"></script>
 		<script type="text/javascript" src="projects.js" charset="utf-8"></script>
 		<script type="text/javascript" src="main.js" charset="utf-8"></script>
 		<script type="text/javascript" src="utils.js" charset="utf-8"></script>
-
 	</body>
 </html>

@@ -19,6 +19,9 @@ var gameData = {
 	bikePartsPurchases: 0,
 	bikePartsPriceAdjustChance: 0.1,
 
+	employees: 0,
+	employeeHiringCost: 1000,
+
 	salesPeople: 0,
 	salesPersonSuccessRate: 25,// x over 100 chance per customer of selling a bike (if there's one to sell)
 	salesPersonHiringCost: 1000,
@@ -29,6 +32,5 @@ var gameData = {
 	mechanicTimers: [],
 	mechanicBaseTimePerBike: 30,//seconds per bike per mechanic
 	mechanicHiringCost: 1000,
-
 }
 

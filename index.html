@@ -16,7 +16,6 @@
 
 			<p>Unsold Bikes: <span id="bikes-built">0</span></p>
 			
-			
 			<button id="sell-bike" disabled onClick="sellBike()">Sell Bike</button> Customers: <span id="customers">0</span>
 
 			<h4>Service Department</h4>
@@ -38,29 +37,26 @@
 					<div id="mech-3-progress" class="progress hidden">
 					</div>
 				</div>
-				<div id="mech-4-timer" class="progress-bar hidden">
-					<div id="mech-4-progress" class="progress hidden">
-					</div>
-				</div>
-				<div id="mech-5-timer" class="progress-bar hidden">
-					<div id="mech-5-progress" class="progress hidden">
-					</div>
-				</div>
 			</div>
 			
 			<button id="buy-bike-parts" disabled onClick="buyBikeParts()">Buy Parts</button>
 			Cost: $<span id="parts-cost">100</span>
 
-			
 			<h4>Business</h4>
 
 			<p>Money: $<span id="money">0</span></p>
 
-			<p id="staff-sales-label" class="hidden">Sales People: <span id="staff-sales">0</span></p>
-			<button id="hire-sales" class="hidden" disabled onClick="hireSales()" title="Salespeople have a chance of selling a bike when a customer is in the store">Hire Salesperson</button>
-			
-			<p id="staff-mechanics-label" class="hidden">Staff Mechanics: <span id="staff-mechanics">0</span></p>
-			<button id="hire-mechanic" class="hidden" disabled onClick="hireMechanic()" title="Mechanics build bikes when there's enough bike parts available">Hire Mechanic</button>
+			<p id="employee-label" class="hidden">Employees: <span id="employees">0</span></p>
+			<button id="hire-employee" class="hidden" disabled onClick="hireEmployee()" title="Hire an additional employee">Hire Employee</button><br><br>
+
+			<label id="employee-focus-slider-label" class="hidden" for="employee-focus-slider">Employee Responsibilities: </label><br/>
+			<input id="employee-focus-slider" disabled type="range" min="0" max="1" list="employee-focus" oninput="changeEmployeeFocus(this.value)" class="hidden" value="0"/>
+
+			<datalist id="employee-focus" class="hidden">
+				<option id="all-sales-tick" value="0" label="Sales" title="Sales staff have a chance of selling a bike while a customer is in the store"></option>
+				<option id="all-mech-tick" value="1" label="Mechanics" title="Mechanics build bikes when there's enough bike parts available"></option>
+			</datalist>
+
 		</div>
 		<div class="column hidden" id="phase2">
 			<h4>Shop Projects</h4>

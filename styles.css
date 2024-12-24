@@ -20,6 +20,27 @@ h4 {
 	display: none;
 }
 
+#employee-focus-slider {
+	margin-left: 10%;
+	width: 80%;
+}
+
+datalist {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	writing-mode: vertical-lr;
+	margin: auto;
+	width: 80%;
+}
+option {
+	padding: 0;
+	transform: rotate(-45deg);
+}
+option:hover {
+	color: grey;
+}
+
 #newsTicker {
 	height: 50px;
 	overflow: hidden;

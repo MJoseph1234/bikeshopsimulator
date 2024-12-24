@@ -101,3 +101,45 @@ function buyBikeParts() {
 	//This (and really any function that costs money) should also check
 	//to disable any other thing that costs money
 }
+
+function canHireEmployee() {
+	return(gameData.money >= gameData.employeeHiringCost
+		&& (gameData.bikes > 0 
+			|| gameData.bikeParts >= gameData.partsPerBike
+			|| gameData.money > gameData.BikePartsBaseCost
+			)
+		);
+}
+
+function hireEmployee() {
+	if (!canHireEmployee()) {
+		return
+	}
+	
+	gameData.money -= gameData.employeeHiringCost;
+	gameData.employees += 1;
+
+	if (gameData.employees == 1) {
+		queueNewsTicker("Bike shop hires first employee");
+		document.getElementById("employee-focus-slider").disabled = false;
+
+	}
+
+	document.getElementById("employees").innerHTML = gameData.employees;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
+	document.getElementById("hire-employee").disables = !canHireEmployee();
+
+	let slider = document.getElementById("employee-focus-slider")
+	let currentValue = slider.value;
+	let ratio = slider.max / currentValue;
+	slider.max = gameData.employees;
+	slider.value = gameData.employees / ratio;
+	document.getElementById("all-mech-tick").value = slider.max;
+	changeEmployeeFocus(slider.value);
+}
+
+function changeEmployeeFocus(value) {
+	gameData.mechanics = Math.min(value, gameData.employees);
+	gameData.salesPeople = gameData.employees - value;
+	document.getElementById("employee-focus-slider").title = `Sales: ${gameData.salesPeople} Mechanics: ${gameData.mechanics}`
+}

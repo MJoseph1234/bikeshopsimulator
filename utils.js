@@ -1,6 +1,6 @@
 //tools and helpers for debugging
 
-function reset() {
+let reset = () => {
 	localStorage.removeItem("bikeShopSimulatorSave");
 	localStorage.removeItem("bikeShopSimulatorSaveTargets");
 	location.reload();
@@ -12,7 +12,7 @@ function showHidden() {
 	document.styleSheets[0].insertRule(".hidden { opacity: 0.33; disabled: true;}", ruleIndex);
 }
 
-function easy() {
+let easy = () => {
 	gameData.demand = 80;
 	gameData.salesPersonSuccessRate = 80;
 }

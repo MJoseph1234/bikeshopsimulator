@@ -18,6 +18,7 @@ var gameData = {
 	bikePartsPerBuy: 1000,
 	bikePartsPurchases: 0,
 	bikePartsPriceAdjustChance: 0.1,
+	bikeBuildProgress: 0,
 
 	employees: 0,
 	employeeHiringCost: 1000,

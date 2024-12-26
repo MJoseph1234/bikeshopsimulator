@@ -140,6 +140,78 @@ function getRandomIntInclusinve(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+let buildInterval;
+document.getElementById("player-build-timer").style.setProperty("--progress", "0%")
+document.getElementById("build-bike").addEventListener("mousedown", () => {
+	buildInterval = window.setInterval( () => {
+		if (gameData.bikeParts <= 0) {
+			return;
+		}
+
+		let timer = document.getElementById("player-build-timer");
+
+		if (gameData.bikeBuildProgress >= gameData.mechanicBaseTimePerBike) {
+			finishBike();
+			timer.style.setProperty("--progress", '0%')
+		}
+		else {
+			let partsPerInterval = gameData.partsPerBike / gameData.mechanicBaseTimePerBike;
+			
+			if (gameData.bikeParts <= partsPerInterval) {
+				return;
+			}
+
+			gameData.bikeBuildProgress += 1;
+			gameData.bikeParts -= partsPerInterval;
+			let progressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / gameData.mechanicBaseTimePerBike), 100);
+			console.log(gameData.bikeParts);
+			timer.style.setProperty("--progress", `${progressPercent}%`);
+			document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
+		}
+	}, 100);
+});
+
+document.getElementById("build-bike").addEventListener("mouseup", () => {
+	clearInterval(buildInterval);
+});
+
+document.getElementById("build-bike").addEventListener("mouseleave", () => {
+	clearInterval(buildInterval);
+})
+
+document.getElementById("build-bike").addEventListener("click", () => {
+	if (gameData.bikeParts <= 0) {
+		return;
+	}
+
+	let timer = document.getElementById("player-build-timer");
+
+	if (gameData.bikeBuildProgress >= gameData.mechanicBaseTimePerBike) {
+		finishBike();
+		timer.style.setProperty("--progress", '0%')
+	}
+	else {
+		let partsPerInterval = gameData.partsPerBike / gameData.mechanicBaseTimePerBike;
+		
+		if (gameData.bikeParts <= partsPerInterval) {
+			return;
+		}
+
+		gameData.bikeBuildProgress += 1;
+		gameData.bikeParts -= partsPerInterval;
+		let progressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / gameData.mechanicBaseTimePerBike), 100);
+		console.log(gameData.bikeParts);
+		timer.style.setProperty("--progress", `${progressPercent}%`);
+		document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
+	}
+});
+
+function finishBike() {
+	gameData.bikes += 1;
+	document.getElementById("bikes-built").innerHTML = gameData.bikes;
+	gameData.bikeBuildProgress = 0;
+}
+
 function canBuildBike() {
 	return(gameData.bikeParts >= gameData.partsPerBike);
 }
@@ -150,7 +222,7 @@ function buildBike() {
 	gameData.bikes += 1;
 	gameData.bikeParts -= gameData.partsPerBike;
 	document.getElementById("bikes-built").innerHTML = gameData.bikes;
-	document.getElementById("bike-parts").innerHTML = gameData.bikeParts;
+	document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
 	document.getElementById("build-bike").disabled = !canBuildBike();
 }
 
@@ -198,7 +270,7 @@ function buyBikeParts() {
 	gameData.bikePartsPurchases += 1;
 	gameData.money -= gameData.bikePartsCost;
 	gameData.bikeParts += gameData.bikePartsPerBuy;
-	document.getElementById("bike-parts").innerHTML = gameData.bikeParts;
+	document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 
 	document.getElementById('build-bike').disabled = !canBuildBike();
@@ -244,7 +316,7 @@ function hireEmployee() {
 }
 
 function changeEmployeeFocus(value) {
-	gameData.mechanics = value;
+	gameData.mechanics = Math.min(value, gameData.employees);
 	gameData.salesPeople = gameData.employees - value;
 	document.getElementById("employee-focus-slider").title = `Sales: ${gameData.salesPeople} Mechanics: ${gameData.mechanics}`
 }
@@ -278,6 +350,9 @@ function mechanicShift() {
 			gameData.mechanicTimers.push(0);
 		}
 		else {
+			if (!canBuildBike()) {
+				continue;
+			}
 			var mechsOnTimer = Math.floor(gameData.mechanics/3) + (gameData.mechanics%3>=i);
 
 			// if there's not enough parts for ALL the mechanics on that timer,

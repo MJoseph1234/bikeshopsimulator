@@ -35,47 +35,8 @@ function getRandomIntInclusinve(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-let buildInterval;
-document.getElementById("player-build-timer").style.setProperty("--progress", "0%")
-document.getElementById("build-bike").addEventListener("mousedown", () => {
-	buildInterval = window.setInterval( () => {
-		if (gameData.bikeParts <= 0) {
-			return;
-		}
-
-		let timer = document.getElementById("player-build-timer");
-
-		if (gameData.bikeBuildProgress >= gameData.mechanicBaseTimePerBike) {
-			finishBike();
-			timer.style.setProperty("--progress", '0%')
-		}
-		else {
-			let partsPerInterval = gameData.partsPerBike / gameData.mechanicBaseTimePerBike;
-			
-			if (gameData.bikeParts <= partsPerInterval) {
-				return;
-			}
-
-			gameData.bikeBuildProgress += 1;
-			gameData.bikeParts -= partsPerInterval;
-			let progressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / gameData.mechanicBaseTimePerBike), 100);
-			console.log(gameData.bikeParts);
-			timer.style.setProperty("--progress", `${progressPercent}%`);
-			document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
-		}
-	}, 100);
-});
-
-document.getElementById("build-bike").addEventListener("mouseup", () => {
-	clearInterval(buildInterval);
-});
-
-document.getElementById("build-bike").addEventListener("mouseleave", () => {
-	clearInterval(buildInterval);
-})
-
-document.getElementById("build-bike").addEventListener("click", () => {
-	if (gameData.bikeParts <= 0) {
+function bikeBuildStep() {
+	if (!canBuildBike()){
 		return;
 	}
 
@@ -88,17 +49,34 @@ document.getElementById("build-bike").addEventListener("click", () => {
 	else {
 		let partsPerInterval = gameData.partsPerBike / gameData.mechanicBaseTimePerBike;
 		
-		if (gameData.bikeParts <= partsPerInterval) {
-			return;
+		if (gameData.bikeParts < partsPerInterval) {
+			gameData.bikeBuildProgress += (gameData.bikeParts / partsPerInterval);
+			gameData.bikeParts = 0;
+		}
+		else {
+			gameData.bikeBuildProgress += 1;
+			gameData.bikeParts -= partsPerInterval;
 		}
 
-		gameData.bikeBuildProgress += 1;
-		gameData.bikeParts -= partsPerInterval;
-		let progressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / gameData.mechanicBaseTimePerBike), 100);
-		console.log(gameData.bikeParts);
-		timer.style.setProperty("--progress", `${progressPercent}%`);
+		let newProgressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / gameData.mechanicBaseTimePerBike), 100);
+		timer.style.setProperty("--progress", `${newProgressPercent}%`);
 		document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
 	}
+}
+
+document.getElementById("build-bike").addEventListener("click", () => bikeBuildStep() );
+
+let buildInterval;
+document.getElementById("build-bike").addEventListener("mousedown", () => {
+	buildInterval = window.setInterval( () => bikeBuildStep(), 100);
+});
+
+document.getElementById("build-bike").addEventListener("mouseup", () => {
+	clearInterval(buildInterval);
+});
+
+document.getElementById("build-bike").addEventListener("mouseleave", () => {
+	clearInterval(buildInterval);
 });
 
 function finishBike() {
@@ -108,7 +86,7 @@ function finishBike() {
 }
 
 function canBuildBike() {
-	return(gameData.bikeParts >= gameData.partsPerBike);
+	return(gameData.bikeParts >= 0);
 }
 function buildBike() {
 	if (!canBuildBike()) {

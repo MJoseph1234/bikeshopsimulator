@@ -427,7 +427,7 @@ function refreshProjectDOM() {
 			projectElem.getElementsByClassName("project-cost")[0].innerHTML = "";
 			projectElem.getElementsByClassName("project-description")[0].innerHTML = "";
 			projectElem.onclick = null;
-			projectElem.classList("hidden", true);
+			projectElem.classList.toggle("hidden", true);
 
 		}
 	}

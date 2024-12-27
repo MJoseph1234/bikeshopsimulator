@@ -88,16 +88,6 @@ function finishBike() {
 function canBuildBike() {
 	return(gameData.bikeParts >= 0);
 }
-function buildBike() {
-	if (!canBuildBike()) {
-		return
-	}
-	gameData.bikes += 1;
-	gameData.bikeParts -= gameData.partsPerBike;
-	document.getElementById("bikes-built").innerHTML = gameData.bikes;
-	document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
-	document.getElementById("build-bike").disabled = !canBuildBike();
-}
 
 function adjustBikePartsPrice() {
 	if (gameData.timer / 250 > 0 && gameData.bikePartsBaseCost > 100){
@@ -192,4 +182,5 @@ function changeEmployeeFocus(value) {
 	gameData.mechanics = Math.min(value, gameData.employees);
 	gameData.salesPeople = gameData.employees - value;
 	document.getElementById("employee-focus-slider").title = `Sales: ${gameData.salesPeople} Mechanics: ${gameData.mechanics}`
+	addNewMechanicTimer();
 }

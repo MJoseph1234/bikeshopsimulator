@@ -7,7 +7,7 @@ function updateNewsTicker(){
 	if (gameData.newsTickerNext.length >= 1) {
 		next = gameData.newsTickerNext.shift();
 	}
-	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 100) {
+	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 1000) {
 		next = news[Math.floor(Math.random()*news.length)]
 	}
 	else {

@@ -14,3 +14,27 @@ function manageButtons() {
 	document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	document.getElementById("hire-employee").disabled = !canHireEmployee();
 }
+
+function blinkAppear(element) {
+	var blinkCount = 0;
+
+	{
+		var handle = setInterval( () => toggleVisibility(element), 30);
+	}
+
+	function toggleVisibility(element) {
+		blinkCount += 1;
+
+		if (blinkCount >= 12) {
+			clearInterval(handle);
+			element.style.visibility = "visible";
+		} else {
+			let isHidden = (element.style.visibility == "hidden");
+			if (isHidden) {
+				element.style.visibility = "visible";
+			} else {
+				element.style.visibility = "hidden";
+			}
+		}
+	}
+}

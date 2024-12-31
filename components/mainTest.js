@@ -3,24 +3,31 @@ if (localStorage.getItem("bikeShopSimulatorSave") != null) {
 }
 
 var gameLoop = window.setInterval(function() {
-	//runs once per second
+	//runs 10 per second
 	gameData.timer += 1;
-	checkTargets();
-	salesShift();
 	mechanicShift();
-	updateCustomers();
-	adjustBikePartsPrice();
-	manageButtons();
-	calculateBusinessAnalytics();
-	updateActiveProjects();
 
+	// every second
 	if (gameData.timer % 10 === 0) {
+		checkTargets();
+		updateCustomers();
+		adjustBikePartsPrice();
+		manageButtons();
+		calculateBusinessAnalytics();
+		updateActiveProjects();
+		salesShift();
+	}
+
+	// every 10 seconds
+	if (gameData.timer % 100 === 0) {
 		saveGame();
 	}
-	if (gameData.timer % 20 === 0 ) {
+
+	// every 20 seconds
+	if (gameData.timer % 200 === 0 ) {
 		updateNewsTicker();
 	}
-}, 1000)
+}, 100)
 
 ////////// domManager.js /////////
 

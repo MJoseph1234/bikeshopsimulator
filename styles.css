@@ -90,6 +90,27 @@ option:hover {
 	-webkit-animation: scroll-left 20s linear infinite;
 	animation: scroll-left 20s linear infinite;
 }
+#newsTicker a {
+	text-decoration: none;
+	color: black;
+}
+#newsTicker sup {
+	font-size: 0.6em;
+	vertical-align: super;
+	line-height: 0;
+}
+#newsTicker sup a {
+	text-decoration: underline;
+	color:blue;
+}
+#newsTicker a:visited {
+	text-decoration: none;
+	color: black;
+}
+#newsTicker sup a:visited {
+	text-decoration: underline;
+	color:blue;
+}
 
 @-moz-keyframes scroll-left {
 	0% {

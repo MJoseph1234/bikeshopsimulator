@@ -31,7 +31,7 @@ var gameData = {
 
 	mechanics: 0,
 	mechanicTimers: [],
-	mechanicBaseTimePerBike: 300,//deci-seconds (30 seconds) per bike per mechanic
+	mechanicBaseTimePerBike: 300, //deci-seconds (30 seconds) per bike per mechanic
 	mechanicHiringCost: 1000,
 }
 

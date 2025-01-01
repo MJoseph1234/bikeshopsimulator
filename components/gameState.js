@@ -10,6 +10,7 @@ function saveGame() {
 	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
 	localStorage.setItem("bikeShopSimulatorSaveTargets", JSON.stringify(targetsMet));
 }
+
 function loadGame() {
 	var savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
 	var savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));

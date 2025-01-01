@@ -21,6 +21,7 @@ var projects = [
 		effect: function() {
 			gameData.money -= 1000;
 			gameData.salesPersonSuccessRate *= 1.1;
+			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 		}
 	},
 
@@ -33,6 +34,7 @@ var projects = [
 		effect: function() {
 			gameData.money -= 1000;
 			gameData.mechanicBaseTimePerBike = Math.floor(gameData.mechanicBaseTimePerBike * 0.9);
+			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 		}
 	},
 
@@ -50,7 +52,9 @@ var projects = [
 		canAfford: function() {return gameData.money >= 1000 && gameData.bikesSold >= 200},
 		effectDescription: "Each bike sold gets a sticker with the shop logo. It's like free advertising.",
 		effect: function() {
+			gameData.money -= 1000;
 			gameData.demand += 10;
+			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 		}
 	}
 ];

@@ -1,5 +1,5 @@
-function queueNewsTicker(value){
-	gameData.newsTickerNext.push(value);
+function queueNewsTicker(headline, link = ""){
+	gameData.newsTickerNext.push([headline, link]);
 }
 
 function updateNewsTicker() {

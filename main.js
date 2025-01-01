@@ -83,6 +83,7 @@ function saveGame() {
 	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
 	localStorage.setItem("bikeShopSimulatorSaveTargets", JSON.stringify(targetsMet));
 }
+
 function loadGame() {
 	var savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
 	var savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));
@@ -104,8 +105,8 @@ function loadGame() {
 	refreshProjectDOM();
 }
 ////////// newsTicker.js /////////
-function queueNewsTicker(value){
-	gameData.newsTickerNext.push(value);
+function queueNewsTicker(headline, link = ""){
+	gameData.newsTickerNext.push([headline, link]);
 }
 
 function updateNewsTicker() {

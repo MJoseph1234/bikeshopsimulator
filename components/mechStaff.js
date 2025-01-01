@@ -1,3 +1,59 @@
+function canBuildBike() {
+	return(gameData.bikeParts >= 0);
+}
+
+function finishBike() {
+	gameData.bikes += 1;
+	document.getElementById("bikes-built").innerHTML = gameData.bikes;
+	gameData.bikeBuildProgress = 0;
+}
+
+function bikeBuildStep() {
+	if (!canBuildBike()){
+		return;
+	}
+
+	let buildTime = gameData.mechanicBaseTimePerBike / 10;
+
+	let timer = document.getElementById("player-build-timer");
+
+	if (gameData.bikeBuildProgress >= buildTime) {
+		finishBike();
+		timer.style.setProperty("--progress", '0%')
+	}
+	else {
+		let partsPerInterval = gameData.partsPerBike / buildTime;
+		
+		if (gameData.bikeParts < partsPerInterval) {
+			gameData.bikeBuildProgress += (gameData.bikeParts / partsPerInterval);
+			gameData.bikeParts = 0;
+		}
+		else {
+			gameData.bikeBuildProgress += 1;
+			gameData.bikeParts -= partsPerInterval;
+		}
+
+		let newProgressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / buildTime), 100);
+		timer.style.setProperty("--progress", `${newProgressPercent}%`);
+		document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
+	}
+}
+
+document.getElementById("build-bike").addEventListener("click", () => bikeBuildStep() );
+
+let buildInterval;
+document.getElementById("build-bike").addEventListener("mousedown", () => {
+	buildInterval = window.setInterval( () => bikeBuildStep(), 100);
+});
+
+document.getElementById("build-bike").addEventListener("mouseup", () => {
+	clearInterval(buildInterval);
+});
+
+document.getElementById("build-bike").addEventListener("mouseleave", () => {
+	clearInterval(buildInterval);
+});
+
 /**
  * Loop through each mechanic and update their build progress
  */
@@ -12,7 +68,7 @@ function mechanicShift() {
 	for (let i = 0; i < timersToUpdate; i++) {
 
 		if (!canBuildBike()) {
-			continue;
+			return;
 		}
 
 		const timer = document.getElementById(`mech-${i + 1}-timer`);

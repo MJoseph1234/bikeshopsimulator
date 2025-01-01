@@ -35,62 +35,6 @@ function getRandomIntInclusinve(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function bikeBuildStep() {
-	if (!canBuildBike()){
-		return;
-	}
-
-	let buildTime = gameData.mechanicBaseTimePerBike / 10;
-
-	let timer = document.getElementById("player-build-timer");
-
-	if (gameData.bikeBuildProgress >= buildTime) {
-		finishBike();
-		timer.style.setProperty("--progress", '0%')
-	}
-	else {
-		let partsPerInterval = gameData.partsPerBike / buildTime;
-		
-		if (gameData.bikeParts < partsPerInterval) {
-			gameData.bikeBuildProgress += (gameData.bikeParts / partsPerInterval);
-			gameData.bikeParts = 0;
-		}
-		else {
-			gameData.bikeBuildProgress += 1;
-			gameData.bikeParts -= partsPerInterval;
-		}
-
-		let newProgressPercent = Math.min(Math.floor(100 * gameData.bikeBuildProgress / buildTime), 100);
-		timer.style.setProperty("--progress", `${newProgressPercent}%`);
-		document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
-	}
-}
-
-document.getElementById("build-bike").addEventListener("click", () => bikeBuildStep() );
-
-let buildInterval;
-document.getElementById("build-bike").addEventListener("mousedown", () => {
-	buildInterval = window.setInterval( () => bikeBuildStep(), 100);
-});
-
-document.getElementById("build-bike").addEventListener("mouseup", () => {
-	clearInterval(buildInterval);
-});
-
-document.getElementById("build-bike").addEventListener("mouseleave", () => {
-	clearInterval(buildInterval);
-});
-
-function finishBike() {
-	gameData.bikes += 1;
-	document.getElementById("bikes-built").innerHTML = gameData.bikes;
-	gameData.bikeBuildProgress = 0;
-}
-
-function canBuildBike() {
-	return(gameData.bikeParts >= 0);
-}
-
 function adjustBikePartsPrice() {
 	if (gameData.timer / 2500 > 0 && gameData.bikePartsBaseCost > 100){
 		gameData.bikePartsBaseCost = gameData.bikePartsBaseCost - (gameData.bikePartsBaseCost/100);
@@ -101,29 +45,6 @@ function adjustBikePartsPrice() {
 		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	}
-}
-function canSellBike() {
-	return(gameData.bikes > 0 && gameData.customers > 0);
-}
-function sellBike() {
-	if (!canSellBike()) {
-		return
-	}
-	gameData.bikes -= 1;
-	gameData.bikesSold += 1;
-	gameData.money += gameData.bikeMSRP;
-	gameData.customers -= 1;
-	gameData.salesRateData[0] += 1;
-	document.getElementById("bikes-built").innerHTML = gameData.bikes;
-	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold;
-	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("customers").innerHTML = gameData.customers;
-	
-	let button = document.getElementById('sell-bike');
-
-	button.disabled = !canSellBike();
-
-	currencyAnimation("+$100", button);
 }
 
 function currencyAnimation(textValue = "+$100", fromElem) {

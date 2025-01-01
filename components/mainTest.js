@@ -20,7 +20,7 @@ var gameLoop = window.setInterval(function() {
 
 	// every 10 seconds
 	if (gameData.timer % 100 === 0) {
-		saveGame();
+		//saveGame();
 	}
 
 	// every 20 seconds

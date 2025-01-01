@@ -1,6 +1,6 @@
 /* Targets
 
-Targets are passive goals that, once reached, enable some new feature or effect
+Targets are passive milestones that, once reached, enable some new feature or effect
 These are checked from the Main Loop
 */
 

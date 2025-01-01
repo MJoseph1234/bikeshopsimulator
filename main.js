@@ -45,6 +45,7 @@ function manageButtons() {
 	document.getElementById("build-bike").disabled = !canBuildBike();
 	document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	document.getElementById("hire-employee").disabled = !canHireEmployee();
+	document.getElementById("buy-accessories").disabled = !canBuyAccessories();
 }
 
 function blinkAppear(element) {
@@ -158,7 +159,7 @@ function checkTargets() {
 }
 
 function updateCustomers() {
-	if (getRandomIntInclusinve(0, 100) <= gameData.demand) {
+	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
 		gameData.customers += 1
 	}
 	else {
@@ -178,7 +179,7 @@ function calculateBusinessAnalytics() {
 	}
 }
 
-function getRandomIntInclusinve(min, max) {
+function getRandomIntInclusive(min, max) {
 	min = Math.floor(min)
 	max = Math.ceil(max)
 	return Math.floor(Math.random() * (max - min + 1) + min);
@@ -202,7 +203,7 @@ function currencyAnimation(textValue = "+$100", fromElem) {
 	let buttonPos = fromElem.getBoundingClientRect();
 
 	// calculate the direction this will move
-	let rads = getRandomIntInclusinve(30, 60) * Math.PI / 180;
+	let rads = getRandomIntInclusive(30, 60) * Math.PI / 180;
 	let hyp = 40;
 
 	let transX = Math.cos(rads) * hyp;
@@ -334,17 +335,65 @@ function sellBike() {
 	currencyAnimation("+$100", button);
 }
 
+function sellBikeWithAccessories() {
+	if (!canSellBike()) {
+		return
+	}
+
+	let accessoriesSold = getRandomIntInclusive(0, Math.min(gameData.accessories, 20));
+	let accessoryPrice = getRandomIntInclusive(1, 3) * accessoriesSold;
+	let profit = gameData.bikeMSRP + accessoryPrice;
+	
+	gameData.bikes -= 1;
+	gameData.bikesSold += 1;
+	gameData.customers -= 1;
+	gameData.money += profit;
+	gameData.accessories -= accessoriesSold;
+	gameData.salesRateData[0] += 1;
+
+	document.getElementById("bikes-built").innerHTML = gameData.bikes;
+	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold.toLocaleString();
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
+	document.getElementById("customers").innerHTML = gameData.customers;
+	document.getElementById("accessories").innerHTML = gameData.accessories.toLocaleString();
+	
+	let button = document.getElementById('sell-bike');
+
+	button.disabled = !canSellBike();
+
+	currencyAnimation(`+$${profit}`, button);
+}
+
+let sellFunction = sellBike;
+
 function salesShift() {
 	if (!canSellBike() || gameData.salesPeople === 0) {
 		return
 	}
 	for (let i = 0; i < gameData.salesPeople; i++) {
-		var salesSuccess = getRandomIntInclusinve(0, 100);
+		var salesSuccess = getRandomIntInclusive(0, 100);
 		if (salesSuccess < gameData.salesPersonSuccessRate) {
-			sellBike();
+			sellFunction();
 		}
 	}
 }
+
+
+function canBuyAccessories() {
+	return(gameData.money > gameData.accessoryCost)
+}
+function buyAccessories() {
+	if (!canBuyAccessories()) {
+		return;
+	}
+	gameData.money -= gameData.accessoryCost;
+	gameData.accessories += gameData.accessoriesPerCase;
+	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
+	document.getElementById("accessories").innerHTML = gameData.accessories.toLocaleString();
+	document.getElementById("buy-accessories").disabled = !canBuyAccessories();
+	currencyAnimation(`-$${gameData.accessoryCost}`, document.getElementById("buy-accessories"));
+}
+
 /////////// mechStaff.js ///////////
 function canBuildBike() {
 	return(gameData.bikeParts >= 0);

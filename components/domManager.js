@@ -13,6 +13,7 @@ function manageButtons() {
 	document.getElementById("build-bike").disabled = !canBuildBike();
 	document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	document.getElementById("hire-employee").disabled = !canHireEmployee();
+	document.getElementById("buy-accessories").disabled = !canBuyAccessories();
 }
 
 function blinkAppear(element) {

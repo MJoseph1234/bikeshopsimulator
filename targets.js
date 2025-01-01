@@ -40,5 +40,15 @@ var targets = [
 		effect: function() {
 			projects[3].status = projectStatus.AVAILABLE;
 		}
+	},
+
+	{
+		title: "Sell Accessories",
+		done: false,
+		effectDescription: "Sell accessories with each bike",
+		trigger: function() {return gameData.bikesSold > 100},
+		effect: function() {
+			projects[4].status = projectStatus.AVAILABLE;
+		}
 	}
 ];

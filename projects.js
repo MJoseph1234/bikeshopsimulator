@@ -56,5 +56,25 @@ var projects = [
 			gameData.demand += 10;
 			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 		}
-	}
+	},
+
+	{
+		title: 'Accessory Sales',
+		status: projectStatus.UNAVAILABLE,
+		costStr: "$10,000",
+		canAfford: function() {return gameData.money >= 10000},
+		effectDescription: "Sell accessories with each bike",
+		effect: function() {
+			gameData.money -= 10000;
+			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
+			document.getElementById("accessory-container").classList.toggle("hidden");
+			gameData.accessories = 1000;
+			gameData.accessoryCost = 1000;
+			gameData.accessoriesPerCase = 1000;
+			document.getElementById("accessories").innerHTML = gameData.accessories.toLocaleString();
+			sellFunction = sellBikeWithAccessories;
+		}
+	},
+
+
 ];

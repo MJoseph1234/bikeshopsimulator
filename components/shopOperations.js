@@ -9,7 +9,7 @@ function checkTargets() {
 }
 
 function updateCustomers() {
-	if (getRandomIntInclusinve(0, 100) <= gameData.demand) {
+	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
 		gameData.customers += 1
 	}
 	else {
@@ -29,7 +29,7 @@ function calculateBusinessAnalytics() {
 	}
 }
 
-function getRandomIntInclusinve(min, max) {
+function getRandomIntInclusive(min, max) {
 	min = Math.floor(min)
 	max = Math.ceil(max)
 	return Math.floor(Math.random() * (max - min + 1) + min);
@@ -53,7 +53,7 @@ function currencyAnimation(textValue = "+$100", fromElem) {
 	let buttonPos = fromElem.getBoundingClientRect();
 
 	// calculate the direction this will move
-	let rads = getRandomIntInclusinve(30, 60) * Math.PI / 180;
+	let rads = getRandomIntInclusive(30, 60) * Math.PI / 180;
 	let hyp = 40;
 
 	let transX = Math.cos(rads) * hyp;

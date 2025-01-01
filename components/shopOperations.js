@@ -106,12 +106,11 @@ function canSellBike() {
 	return(gameData.bikes > 0 && gameData.customers > 0);
 }
 function sellBike() {
-	if (!canSellBike()){
+	if (!canSellBike()) {
 		return
 	}
 	gameData.bikes -= 1;
 	gameData.bikesSold += 1;
-	//gameData.money += Math.ceil(gameData.bikeMSRP / (1 + gameData.salesPeople + gameData.mechanics));
 	gameData.money += gameData.bikeMSRP;
 	gameData.customers -= 1;
 	gameData.salesRateData[0] += 1;
@@ -119,8 +118,58 @@ function sellBike() {
 	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 	document.getElementById("customers").innerHTML = gameData.customers;
+	
+	let button = document.getElementById('sell-bike');
 
-	document.getElementById('sell-bike').disabled = !canSellBike();
+	button.disabled = !canSellBike();
+
+	currencyAnimation("+$100", button);
+}
+
+function currencyAnimation(textValue = "+$100", fromElem) {
+	let newDiv = document.createElement("div");
+	let newContent = document.createTextNode(textValue);
+	let buttonPos = fromElem.getBoundingClientRect();
+
+	// calculate the direction this will move
+	let rads = getRandomIntInclusinve(30, 60) * Math.PI / 180;
+	let hyp = 40;
+
+	let transX = Math.cos(rads) * hyp;
+	let transY = Math.sin(rads) * hyp;
+
+	// style the div
+	newDiv.style.position = "absolute";
+	newDiv.style.left = buttonPos.right + "px";
+	newDiv.style.userSelect = "none";
+
+	if (textValue[0] == "+") {
+		newDiv.style.color = "green";
+		transY *= -1;
+	} else {
+		newDiv.style.color = "red";
+		newDiv.style.top = buttonPos.bottom + "px";
+	}
+
+	// define the animation
+	const timing = {
+		duration: 3000,
+		iterations: 1,
+		easing: "ease-out"
+	};
+	const keyframes = [
+		{ transform: "translate(0, 0)", opacity: 1},
+		{ transform: `translate(${transX}px, ${transY}px)`, opacity: 0}
+	];
+
+	newDiv.animate(keyframes, timing);
+
+	// add the div next to the element it's emitted from
+	newDiv.appendChild(newContent);
+	fromElem.parentNode.insertBefore(newDiv, fromElem);
+
+	// remove the element after the animation
+	window.setTimeout( () => { fromElem.parentNode.removeChild(newDiv) }, 2900)
 }
 
 function canBuyBikeParts(){
@@ -140,6 +189,8 @@ function buyBikeParts() {
 
 	document.getElementById('build-bike').disabled = !canBuildBike();
 	document.getElementById('buy-bike-parts').disabled = !canBuyBikeParts();
+
+	currencyAnimation(`-$${gameData.bikePartsCost}`, document.getElementById("buy-bike-parts"));
 	//This (and really any function that costs money) should also check
 	//to disable any other thing that costs money
 }
@@ -177,6 +228,9 @@ function hireEmployee() {
 	slider.value = gameData.employees / ratio;
 	document.getElementById("all-mech-tick").value = slider.max;
 	changeEmployeeFocus(slider.value);
+
+	currencyAnimation("-$1000", document.getElementById("hire-employee"));
+
 }
 
 function changeEmployeeFocus(value) {

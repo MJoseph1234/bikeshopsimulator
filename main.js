@@ -332,7 +332,7 @@ function sellBike() {
 
 	button.disabled = !canSellBike();
 
-	currencyAnimation("+$100", button);
+	currencyAnimation(`+$${gameData.bikeMSRP}`, button); 
 }
 
 function sellBikeWithAccessories() {

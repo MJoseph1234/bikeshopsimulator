@@ -19,7 +19,7 @@ function sellBike() {
 
 	button.disabled = !canSellBike();
 
-	currencyAnimation(`+$${gameData.bikeMSRP}`, button);
+	currencyAnimation(`+$${gameData.bikeMSRP}`, button); 
 }
 
 function sellBikeWithAccessories() {

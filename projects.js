@@ -68,6 +68,7 @@ var projects = [
 			gameData.money -= 10000;
 			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 			document.getElementById("accessory-container").classList.toggle("hidden");
+			blinkAppear(document.getElementById("accessory-container"));
 			gameData.accessories = 1000;
 			gameData.accessoryCost = 1000;
 			gameData.accessoriesPerCase = 1000;

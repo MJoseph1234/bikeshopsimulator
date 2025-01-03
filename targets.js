@@ -26,7 +26,6 @@ var targets = [
 		trigger: function(){return gameData.salesPeople > 0 && gameData.mechanics > 0 && gameData.timer % 20 === 0},
 		effect: function(){
 			document.getElementById("phase2").classList.remove("hidden");
-			console.log("The machine is alive. Now focus on business projects")
 			projects[0].status =  projectStatus.AVAILABLE;
 			projects[1].status = projectStatus.AVAILABLE;
 		}

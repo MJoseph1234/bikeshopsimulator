@@ -1,4 +1,3 @@
-
 /**
  * Display the given project in the specified spot
  * 
@@ -29,17 +28,10 @@ function displayProject(project, position) {
  * 
  * @param {projectStatus.<status>} status - a project status from the projectStatus const in projects.js
  * 
- * @returns {Array.<number>} a list of numbers that are indexes into the projects list
+ * @returns {project[]} a list of project objects
  */
 function listProjectsWithStatus(status) {
-	var projectList = [];
-
-	projects.forEach((project) => {
-		if (project.status == status) {
-			projectList.push(project);
-		}
-	});
-	return projectList;
+	return projects.filter((project) => project.status == status);
 }
 
 /**
@@ -47,7 +39,9 @@ function listProjectsWithStatus(status) {
  * hide unused project containers
  */
 function refreshProjectDOM() {
-	var active = listProjectsWithStatus(projectStatus.ACTIVE);
+	// get the list of active projects
+	let active = projects.filter((project) => project.status == projectStatus.ACTIVE);
+	
 	for (let i = 0; i < 5; i++) {
 		if (i < active.length) {
 			displayProject(active[i], i);
@@ -59,7 +53,6 @@ function refreshProjectDOM() {
 			projectElem.getElementsByClassName("project-description")[0].innerHTML = "";
 			projectElem.onclick = null;
 			projectElem.classList.toggle("hidden", true);
-
 		}
 	}
 }
@@ -70,8 +63,8 @@ function refreshProjectDOM() {
  * purchased or not and update the dom accordingly.
  */
 function updateActiveProjects() {
-	var active = listProjectsWithStatus(projectStatus.ACTIVE);
-	var available = listProjectsWithStatus(projectStatus.AVAILABLE);
+	var active = projects.filter((project) => project.status == projectStatus.ACTIVE);
+	var available = projects.filter((project) => project.status == projectStatus.AVAILABLE);
 	
 	while (active.length < 5 && available.length > 0) {
 		prj = available.shift();

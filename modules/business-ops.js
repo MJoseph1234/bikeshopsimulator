@@ -1,11 +1,12 @@
 function checkTargets() {
-	targets.forEach(target => {
-		if (target.trigger() && !(target.done)) {
+	targets
+		.filter((target) => !target.done) // skip already-done projects
+		.filter((target) => target.trigger()) // skip un-met targets
+		.forEach(target => {
 			target.done = true;
 			target.effect();
-			console.log(target.title + ": Done!")
-		}
-	})
+			console.log(`Target ${target.title}: Done!`);
+		})
 }
 
 function updateCustomers() {
@@ -45,52 +46,6 @@ function adjustBikePartsPrice() {
 		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	}
-}
-
-function currencyAnimation(textValue = "+$100", fromElem) {
-	let newDiv = document.createElement("div");
-	let newContent = document.createTextNode(textValue);
-	let buttonPos = fromElem.getBoundingClientRect();
-
-	// calculate the direction this will move
-	let rads = getRandomIntInclusive(30, 60) * Math.PI / 180;
-	let hyp = 40;
-
-	let transX = Math.cos(rads) * hyp;
-	let transY = Math.sin(rads) * hyp;
-
-	// style the div
-	newDiv.style.position = "absolute";
-	newDiv.style.left = buttonPos.right + "px";
-	newDiv.style.userSelect = "none";
-
-	if (textValue[0] == "+") {
-		newDiv.style.color = "green";
-		transY *= -1;
-	} else {
-		newDiv.style.color = "red";
-		newDiv.style.top = buttonPos.bottom + "px";
-	}
-
-	// define the animation
-	const timing = {
-		duration: 3000,
-		iterations: 1,
-		easing: "ease-out"
-	};
-	const keyframes = [
-		{ transform: "translate(0, 0)", opacity: 1},
-		{ transform: `translate(${transX}px, ${transY}px)`, opacity: 0}
-	];
-
-	newDiv.animate(keyframes, timing);
-
-	// add the div next to the element it's emitted from
-	newDiv.appendChild(newContent);
-	fromElem.parentNode.insertBefore(newDiv, fromElem);
-
-	// remove the element after the animation
-	window.setTimeout( () => { fromElem.parentNode.removeChild(newDiv) }, 2900)
 }
 
 function canBuyBikeParts(){

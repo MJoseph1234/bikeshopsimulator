@@ -29,7 +29,7 @@ var gameLoop = window.setInterval(function() {
 	}
 }, 100)
 
-////////// domManager.js /////////
+////////// dom-utils.js /////////
 function refreshCounters() {
 	document.getElementById("bikes-sold").innerHTML = gameData.bikesSold.toLocaleString();
 	document.getElementById("bikes-built").innerHTML = gameData.bikes;
@@ -40,6 +40,9 @@ function refreshCounters() {
 	document.getElementById("employees").innerHTML = gameData.employees;
 }
 
+/**
+ * check all buttons to update weather they should be disabled or not
+ */
 function manageButtons() {
 	document.getElementById("sell-bike").disabled = !canSellBike();
 	document.getElementById("build-bike").disabled = !canBuildBike();
@@ -48,6 +51,13 @@ function manageButtons() {
 	document.getElementById("buy-accessories").disabled = !canBuyAccessories();
 }
 
+/**
+ * Make an element (and its contents) blink between visible and hidden
+ * before ultimately settling on visible. This is used to draw attention to
+ * a new component on the screen when it first shows up.
+ * 
+ * @param {HTMLElement} element - the DOM element to blink
+ */
 function blinkAppear(element) {
 	var blinkCount = 0;
 
@@ -71,132 +81,16 @@ function blinkAppear(element) {
 		}
 	}
 }
-////////// gameState.js /////////
-function saveGame() {
-	var targetsMet = [];
-	for (var i=0; i < targets.length; i++) {
-		targetsMet[i] = targets[i].done;
-	}
-	gameData.projectStatuses = [];
-	for (var i=0; i < projects.length; i++){
-		gameData.projectStatuses.push(projects[i].status)
-	}
-	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
-	localStorage.setItem("bikeShopSimulatorSaveTargets", JSON.stringify(targetsMet));
-}
 
-function loadGame() {
-	var savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
-	var savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));
-	if (savedGame != null) {
-		gameData = savedGame;
-	}
-	if (savedTargets != null){
-		for (var i=0; i < savedTargets.length; i++) {
-			if (savedTargets[i].done) {
-				targets[i].done = true;
-				target.effect();
-			}
-		}
-	}
-	for (let i=0; i < gameData.projectStatuses.length; i++){
-		projects[i].status = gameData.projectStatuses[i];
-	}
-	refreshCounters();
-	refreshProjectDOM();
-}
-////////// newsTicker.js /////////
-function queueNewsTicker(headline, link = ""){
-	gameData.newsTickerNext.push([headline, link]);
-}
-
-function updateNewsTicker() {
-
-	// Get the next queued news, if there is one
-	let newsEntry;
-	if (gameData.newsTickerNext.length >= 1) {
-		next = gameData.newsTickerNext.shift();
-	}
-	// otherwise, if enough time has passed, grab a random one from the list
-	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 1000) {
-		newsEntry = Math.floor(Math.random()*news.length);
-		next = news[newsEntry];
-	}
-	else {
-		return;
-	}
-	
-	let text = next[0];
-	let tickerHTML;
-	if (next.length == 1 || next[1] == "") {
-		tickerHTML = text;
-	} else {
-		tickerHTML = `<a href="${next[1]}" target="_blank">${text} </a><sup>[<a href="${next[1]}">${newsEntry}</a>]</sup>`
-	}
-	gameData.newsTickerTimeAtLastUpdate = gameData.timer;
-	gameData.NewsTickerText = tickerHTML;
-	document.getElementById("tickerText").innerHTML = tickerHTML;
-}
-
-var news = [
-	["Advocates Call for More Bike Paths", ""],
-	["Research Shows Bikes are Good For You", "https://www.betterhealth.vic.gov.au/health/healthyliving/cycling-health-benefits"],
-	["Study Suggests Bikes are Faster for Inner City Delivery", "https://www.larryvsharry.com/media/wysiwyg/cms_pages/Stories/Last_Mile_Delivery/Data-driven_Evaluation_of_Cargo_Bike_Delivery_Performance_in_Brussels.pdf"],
-	["Scientists Discover You Should Bike More", ""],
-	["Researchers find no connection between bicycles and bigfoot sightings", ""],
-	["Opinion: Patriots Say More Bikes = More Freedom", ""],
-	["Urbanists: E-bikes are fastest way to the airport", "https://www.wsj.com/lifestyle/travel/airport-race-new-york-chicago-los-angeles-67a2acbf"],
-]
-///////// shopOperations.js //////////
-function checkTargets() {
-	targets.forEach(target => {
-		if (target.trigger() && !(target.done)) {
-			target.done = true;
-			target.effect();
-			console.log(target.title + ": Done!")
-		}
-	})
-}
-
-function updateCustomers() {
-	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
-		gameData.customers += 1
-	}
-	else {
-		gameData.customers = Math.max(gameData.customers - 1, 0);
-	}
-	document.getElementById("customers").innerHTML = gameData.customers;
-}
-
-function calculateBusinessAnalytics() {
-	if (gameData.timer % 60 === 0) {
-		gameData.salesRateData.unshift(0);
-		if (gameData.salesRateData.length > 5) {
-			gameData.salesRateData.pop();
-		}
-		gameData.salesPerMinuteAverage = Math.round(gameData.salesRateData.reduce((partialSum, datum) => partialSum + datum, 0) / gameData.salesRateData.length);
-		// console.log("Sales Rate: " + gameData.salesPerMinuteAverage + " bikes per minute (averaged over last " + gameData.salesRateData.length + " minutes)");
-	}
-}
-
-function getRandomIntInclusive(min, max) {
-	min = Math.floor(min)
-	max = Math.ceil(max)
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function adjustBikePartsPrice() {
-	if (gameData.timer / 2500 > 0 && gameData.bikePartsBaseCost > 100){
-		gameData.bikePartsBaseCost = gameData.bikePartsBaseCost - (gameData.bikePartsBaseCost/100);
-	}
-	if (Math.random() < gameData.bikePartsPriceAdjustChance) {
-		var partsAdjust = 25*(Math.sin(gameData.timer));
-		gameData.bikePartsCost = Math.ceil(gameData.bikePartsBaseCost + partsAdjust);
-		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
-		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
-	}
-}
-
+/**
+ * Display a little animation of some text value floating away, like dollar
+ * signs floating away from a button that spent some in-game money
+ * 
+ * @param {string} textValue - the floating text to float away. 
+ * 	   If it starts with a +, the animation will be green and float upward. 
+ *     Otherwise it will be red and float down.
+ * @param {HTMLElement} fromElem - the element to start the animation from
+ */
 function currencyAnimation(textValue = "+$100", fromElem) {
 	let newDiv = document.createElement("div");
 	let newContent = document.createTextNode(textValue);
@@ -241,6 +135,135 @@ function currencyAnimation(textValue = "+$100", fromElem) {
 
 	// remove the element after the animation
 	window.setTimeout( () => { fromElem.parentNode.removeChild(newDiv) }, 2900)
+}
+
+////////// save-and-load.js /////////
+function saveGame() {
+	var targetsMet = [];
+	for (var i=0; i < targets.length; i++) {
+		targetsMet[i] = targets[i].done;
+	}
+	gameData.projectStatuses = [];
+	for (var i=0; i < projects.length; i++){
+		gameData.projectStatuses.push(projects[i].status)
+	}
+	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
+	localStorage.setItem("bikeShopSimulatorSaveTargets", JSON.stringify(targetsMet));
+}
+
+function loadGame() {
+	var savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
+	var savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));
+	if (savedGame != null) {
+		gameData = savedGame;
+	}
+	if (savedTargets != null){
+		for (var i=0; i < savedTargets.length; i++) {
+			if (savedTargets[i].done) {
+				targets[i].done = true;
+				target.effect();
+			}
+		}
+	}
+	for (let i=0; i < gameData.projectStatuses.length; i++){
+		projects[i].status = gameData.projectStatuses[i];
+	}
+	refreshCounters();
+	refreshProjectDOM();
+}
+
+////////// news-ticker.js /////////
+function queueNewsTicker(headline, link = ""){
+	gameData.newsTickerNext.push([headline, link]);
+}
+
+function updateNewsTicker() {
+
+	// Get the next queued news, if there is one
+	let newsEntry;
+	if (gameData.newsTickerNext.length >= 1) {
+		next = gameData.newsTickerNext.shift();
+	}
+	// otherwise, if enough time has passed, grab a random one from the list
+	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 1000) {
+		newsEntry = Math.floor(Math.random()*news.length);
+		next = news[newsEntry];
+	}
+	else {
+		return;
+	}
+	
+	let text = next[0];
+	let tickerHTML;
+	if (next.length == 1 || next[1] == "") {
+		tickerHTML = text;
+	} else {
+		tickerHTML = `<a href="${next[1]}" target="_blank">${text} </a><sup>[<a href="${next[1]}">${newsEntry}</a>]</sup>`
+	}
+	gameData.newsTickerTimeAtLastUpdate = gameData.timer;
+	gameData.NewsTickerText = tickerHTML;
+	document.getElementById("tickerText").innerHTML = tickerHTML;
+}
+
+var news = [
+	["Advocates Call for More Bike Paths", ""],
+	["Research Shows Bikes are Good For You", "https://www.betterhealth.vic.gov.au/health/healthyliving/cycling-health-benefits"],
+	["Study Suggests Bikes are Faster for Inner City Delivery", "https://www.larryvsharry.com/media/wysiwyg/cms_pages/Stories/Last_Mile_Delivery/Data-driven_Evaluation_of_Cargo_Bike_Delivery_Performance_in_Brussels.pdf"],
+	["Scientists Discover You Should Bike More", ""],
+	["Researchers find no connection between bicycles and bigfoot sightings", ""],
+	["Opinion: Patriots Say More Bikes = More Freedom", ""],
+	["Urbanists: E-bikes are fastest way to the airport", "https://www.wsj.com/lifestyle/travel/airport-race-new-york-chicago-los-angeles-67a2acbf"],
+]
+
+///////// business-ops.js //////////
+function checkTargets() {
+	targets
+		.filter((target) => !target.done) // skip already-done projects
+		.filter((target) => target.trigger()) // skip un-met targets
+		.forEach(target => {
+			target.done = true;
+			target.effect();
+			console.log(`Target ${target.title}: Done!`);
+		})
+}
+
+function updateCustomers() {
+	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
+		gameData.customers += 1
+	}
+	else {
+		gameData.customers = Math.max(gameData.customers - 1, 0);
+	}
+	document.getElementById("customers").innerHTML = gameData.customers;
+}
+
+function calculateBusinessAnalytics() {
+	if (gameData.timer % 60 === 0) {
+		gameData.salesRateData.unshift(0);
+		if (gameData.salesRateData.length > 5) {
+			gameData.salesRateData.pop();
+		}
+		gameData.salesPerMinuteAverage = Math.round(gameData.salesRateData.reduce((partialSum, datum) => partialSum + datum, 0) / gameData.salesRateData.length);
+		// console.log("Sales Rate: " + gameData.salesPerMinuteAverage + " bikes per minute (averaged over last " + gameData.salesRateData.length + " minutes)");
+	}
+}
+
+function getRandomIntInclusive(min, max) {
+	min = Math.floor(min)
+	max = Math.ceil(max)
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function adjustBikePartsPrice() {
+	if (gameData.timer / 2500 > 0 && gameData.bikePartsBaseCost > 100){
+		gameData.bikePartsBaseCost = gameData.bikePartsBaseCost - (gameData.bikePartsBaseCost/100);
+	}
+	if (Math.random() < gameData.bikePartsPriceAdjustChance) {
+		var partsAdjust = 25*(Math.sin(gameData.timer));
+		gameData.bikePartsCost = Math.ceil(gameData.bikePartsBaseCost + partsAdjust);
+		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
+		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
+	}
 }
 
 function canBuyBikeParts(){
@@ -310,7 +333,8 @@ function changeEmployeeFocus(value) {
 	document.getElementById("employee-focus-slider").title = `Sales: ${gameData.salesPeople} Mechanics: ${gameData.mechanics}`
 	addNewMechanicTimer();
 }
-////////// salesStaff.js //////////
+
+////////// sales-department.js //////////
 function canSellBike() {
 	return(gameData.bikes > 0 && gameData.customers > 0);
 }
@@ -394,7 +418,7 @@ function buyAccessories() {
 	currencyAnimation(`-$${gameData.accessoryCost}`, document.getElementById("buy-accessories"));
 }
 
-/////////// mechStaff.js ///////////
+/////////// service-department.js ///////////
 function canBuildBike() {
 	return(gameData.bikeParts >= 0);
 }
@@ -515,8 +539,8 @@ function addNewMechanicTimer() {
 		gameData.mechanicTimers.push(0);
 	}
 }
-///////// shopProjects.js ///////////
 
+///////// project-manager.js ///////////
 /**
  * Display the given project in the specified spot
  * 
@@ -547,17 +571,10 @@ function displayProject(project, position) {
  * 
  * @param {projectStatus.<status>} status - a project status from the projectStatus const in projects.js
  * 
- * @returns {Array.<number>} a list of numbers that are indexes into the projects list
+ * @returns {project[]} a list of project objects
  */
 function listProjectsWithStatus(status) {
-	var projectList = [];
-
-	projects.forEach((project) => {
-		if (project.status == status) {
-			projectList.push(project);
-		}
-	});
-	return projectList;
+	return projects.filter((project) => project.status == status);
 }
 
 /**
@@ -565,7 +582,9 @@ function listProjectsWithStatus(status) {
  * hide unused project containers
  */
 function refreshProjectDOM() {
-	var active = listProjectsWithStatus(projectStatus.ACTIVE);
+	// get the list of active projects
+	let active = projects.filter((project) => project.status == projectStatus.ACTIVE);
+	
 	for (let i = 0; i < 5; i++) {
 		if (i < active.length) {
 			displayProject(active[i], i);
@@ -577,7 +596,6 @@ function refreshProjectDOM() {
 			projectElem.getElementsByClassName("project-description")[0].innerHTML = "";
 			projectElem.onclick = null;
 			projectElem.classList.toggle("hidden", true);
-
 		}
 	}
 }
@@ -588,8 +606,8 @@ function refreshProjectDOM() {
  * purchased or not and update the dom accordingly.
  */
 function updateActiveProjects() {
-	var active = listProjectsWithStatus(projectStatus.ACTIVE);
-	var available = listProjectsWithStatus(projectStatus.AVAILABLE);
+	var active = projects.filter((project) => project.status == projectStatus.ACTIVE);
+	var available = projects.filter((project) => project.status == projectStatus.AVAILABLE);
 	
 	while (active.length < 5 && available.length > 0) {
 		prj = available.shift();
@@ -602,4 +620,5 @@ function updateActiveProjects() {
 		projectElem.classList.toggle("disabled", !active[i].canAfford());
 	}
 }
+
 

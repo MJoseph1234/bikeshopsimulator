@@ -24,17 +24,6 @@ function displayProject(project, position) {
 }
 
 /**
- * Get the list of projects with a given status
- * 
- * @param {projectStatus.<status>} status - a project status from the projectStatus const in projects.js
- * 
- * @returns {project[]} a list of project objects
- */
-function listProjectsWithStatus(status) {
-	return projects.filter((project) => project.status == status);
-}
-
-/**
  * Update the projects interface component to remove any finished projects and
  * hide unused project containers
  */

@@ -2,7 +2,7 @@ function queueNewsTicker(headline, link = ""){
 	gameData.newsTickerNext.push([headline, link]);
 }
 
-function updateNewsTicker() {
+function updateNewsTicker(minTime = 1000) {
 
 	// Get the next queued news, if there is one
 	let newsEntry;
@@ -10,7 +10,7 @@ function updateNewsTicker() {
 		next = gameData.newsTickerNext.shift();
 	}
 	// otherwise, if enough time has passed, grab a random one from the list
-	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > 1000) {
+	else if (gameData.timer - gameData.newsTickerTimeAtLastUpdate > minTime) {
 		newsEntry = Math.floor(Math.random()*news.length);
 		next = news[newsEntry];
 	}
@@ -33,18 +33,21 @@ function updateNewsTicker() {
 var news = [
 	["Research Shows Bikes are Good For You", "https://www.betterhealth.vic.gov.au/health/healthyliving/cycling-health-benefits"],
 	["Study Suggests Bikes are Faster for Inner City Delivery", "https://www.larryvsharry.com/media/wysiwyg/cms_pages/Stories/Last_Mile_Delivery/Data-driven_Evaluation_of_Cargo_Bike_Delivery_Performance_in_Brussels.pdf"],
-	["Urbanists: E-bikes are fastest way to the airport", "https://www.wsj.com/lifestyle/travel/airport-race-new-york-chicago-los-angeles-67a2acbf"],
+	["Urbanists: E-bikes are Fastest Way to the Airport", "https://www.wsj.com/lifestyle/travel/airport-race-new-york-chicago-los-angeles-67a2acbf"],
 	["Study: New Bike Lanes Lead to Higher Restaurant Sales", "https://prismic-io.s3.amazonaws.com/peopleforbikes/54999b6d-3cb6-484a-863a-955d5d71a02e_National-Street-Improvements-Study-Summary.pdf"],
-	["Scientists: Middle School Bicycle Program Helps with Mental Health", "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2023.1255514/full"],
+	["Middle School Bicycle Program Helps Student Mental Health", "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2023.1255514/full"],
+	["Doctors Say Biking To Work Makes You Die Less", "https://www.bmj.com/content/357/bmj.j1456"],
+	["Experts: Kids Who Bike To School Are Smarter ", "https://jamanetwork.com/journals/jamapediatrics/fullarticle/384475"],
 	
 	["Scientists Discover You Should Bike More", ""],
-	["Researchers find no connection between bicycles and bigfoot sightings", ""],
+	["Researchers Find No Connection Between Bicycles and Bigfoot Sightings", ""],
 	["Opinion: Patriots Say More Bikes = More Freedom", ""],
 	["High Schoolers Build Sweet Bicycle Jump Over Local Stream", ""],
 	["Advocates Call for More Bike Paths", ""],
-	["Cyclist Breaks Sprint Speed Record during Dog Chase", ""],
+	["Cyclist Breaks Sprint Speed Record During Dog Chase", ""],
 	["City Police: No Parking Tickets Issued to Bicycles in Past Year", ""],
-	["Scientists: Does Citrus Work As Bicycle Chain Lube? No. Not At All", ""],
-	["Local Cycling Groups In Your Area", ""],
-	["Muscled Cyclist Riding Tandem Bicycle Alone Wins Local Race", ""]
+	["Scientists: Does Citrus Work As Bicycle Chain Lube? No.", ""],
+	["Local Cycling Groups Looking for Members In Your Area", ""],
+	["Lone Cyclist On Tandem Wins Local Race", ""],
+	["Report: Cyclist Does Sick Wheelie Outside Headline Writer's House", ""],
 ]

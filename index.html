@@ -61,16 +61,20 @@
 
 			<p>Money: $<span id="money">0</span></p>
 
-			<p id="employee-label" class="hidden">Employees: <span id="employees">0</span></p>
-			<button id="hire-employee" class="hidden" disabled onClick="hireEmployee()" title="Hire an additional employee">Hire Employee</button><br><br>
+			<div id="employee-container" class="hidden">
+				<p id="employee-label">Employees: <span id="employees">0</span></p>
+				<button id="hire-employee" disabled onClick="hireEmployee()" title="Hire an additional employee">Hire Employee</button>
+				Hiring Cost: <span id="employee-cost">1000</span>
+				</br></br>
 
-			<label id="employee-focus-slider-label" class="hidden" for="employee-focus-slider">Employee Responsibilities: </label><br/>
-			<input id="employee-focus-slider" disabled type="range" min="0" max="1" list="employee-focus" oninput="changeEmployeeFocus(this.value)" class="hidden" value="0"/>
+				<label id="employee-focus-slider-label" for="employee-focus-slider">Employee Responsibilities: </label><br/>
+				<input id="employee-focus-slider" disabled type="range" min="0" max="1" list="employee-focus" oninput="changeEmployeeFocus(this.value)" value="0"/>
 
-			<datalist id="employee-focus" class="hidden">
-				<option id="all-sales-tick" value="0" label="Sales" title="Sales staff have a chance of selling a bike while a customer is in the store"></option>
-				<option id="all-mech-tick" value="1" label="Mechanics" title="Mechanics build bikes when there's enough bike parts available"></option>
-			</datalist>
+				<datalist id="employee-focus">
+					<option id="all-sales-tick" value="0" label="Sales" title="Sales staff have a chance of selling a bike while a customer is in the store"></option>
+					<option id="all-mech-tick" value="1" label="Mechanics" title="Mechanics build bikes when there's enough bike parts available"></option>
+				</datalist>
+			</div>
 		</div>
 
 		<!----- column2 ----->

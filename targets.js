@@ -11,11 +11,7 @@ var targets = [
 		effectDescription: "Enable hiring employees",
 		trigger: function(){return(gameData.bikesSold >= 10 || (gameData.bikes + gameData.bikesSold >= 100))},
 		effect: function(){
-			document.getElementById("employee-label").classList.remove("hidden");
-			document.getElementById("hire-employee").classList.remove("hidden");
-			document.getElementById("employee-focus-slider-label").classList.remove("hidden");
-			document.getElementById("employee-focus-slider").classList.remove("hidden");
-			document.getElementById('employee-focus').classList.remove("hidden");
+			document.getElementById("employee-container").classList.remove("hidden");
 		}
 	},
 

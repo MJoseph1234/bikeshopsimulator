@@ -240,9 +240,6 @@ function checkTargets() {
 }
 
 function updateCustomers() {
-
-	// using a poisson distribution
-
 	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
 		gameData.customers += 1
 	}

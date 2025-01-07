@@ -94,6 +94,10 @@ option:hover {
 	text-decoration: none;
 	color: #333;
 }
+#newsTicker a:visited {
+	text-decoration: none;
+	color: #333;
+}
 #newsTicker sup {
 	font-size: 0.6em;
 	vertical-align: super;
@@ -103,10 +107,7 @@ option:hover {
 	text-decoration: underline;
 	color:blue;
 }
-#newsTicker a:visited {
-	text-decoration: none;
-	color: black;
-}
+
 #newsTicker sup a:visited {
 	text-decoration: underline;
 	color:blue;

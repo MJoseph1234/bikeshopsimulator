@@ -66,13 +66,12 @@ var projects = [
 		effectDescription: "Sell accessories with each bike",
 		effect: function() {
 			gameData.money -= 10000;
-			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-			document.getElementById("accessory-container").classList.toggle("hidden");
-			blinkAppear(document.getElementById("accessory-container"));
 			gameData.accessories = 1000;
 			gameData.accessoryCost = 1000;
 			gameData.accessoriesPerCase = 1000;
+			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 			document.getElementById("accessories").innerHTML = gameData.accessories.toLocaleString();
+			blinkAppear(document.getElementById("accessory-container"));
 			sellFunction = sellBikeWithAccessories;
 		}
 	},

@@ -11,7 +11,7 @@ var targets = [
 		effectDescription: "Enable hiring employees",
 		trigger: function(){return(gameData.bikesSold >= 10 || (gameData.bikes + gameData.bikesSold >= 100))},
 		effect: function(){
-			document.getElementById("employee-container").classList.remove("hidden");
+			blinkAppear(document.getElementById("employee-container"));
 		}
 	},
 
@@ -21,7 +21,7 @@ var targets = [
 		effectDescription: "Enable business projects",
 		trigger: function(){return gameData.salesPeople > 0 && gameData.mechanics > 0 && gameData.timer % 20 === 0},
 		effect: function(){
-			document.getElementById("phase2").classList.remove("hidden");
+			blinkAppear(document.getElementById("phase2"));
 			projects[0].status =  projectStatus.AVAILABLE;
 			projects[1].status = projectStatus.AVAILABLE;
 		}

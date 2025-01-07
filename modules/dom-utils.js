@@ -24,14 +24,15 @@ function manageButtons() {
  * before ultimately settling on visible. This is used to draw attention to
  * a new component on the screen when it first shows up.
  * 
+ * Removes the .hidden css class from the element
+ * 
  * @param {HTMLElement} element - the DOM element to blink
  */
 function blinkAppear(element) {
 	var blinkCount = 0;
+	element.classList.remove("hidden");
 
-	{
-		var handle = setInterval( () => toggleVisibility(element), 30);
-	}
+	var handle = setInterval( () => toggleVisibility(element), 30);
 
 	function toggleVisibility(element) {
 		blinkCount += 1;

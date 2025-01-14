@@ -9,16 +9,6 @@ function checkTargets() {
 		})
 }
 
-function updateCustomers() {
-	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
-		gameData.customers += 1
-	}
-	else {
-		gameData.customers = Math.max(gameData.customers - 1, 0);
-	}
-	document.getElementById("customers").innerHTML = gameData.customers;
-}
-
 function calculateBusinessAnalytics() {
 	if (gameData.timer % 60 === 0) {
 		gameData.salesRateData.unshift(0);
@@ -60,15 +50,15 @@ function buyBikeParts() {
 	gameData.bikePartsPurchases += 1;
 	gameData.money -= gameData.bikePartsCost;
 	gameData.bikeParts += gameData.bikePartsPerBuy;
+	
 	document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 
 	document.getElementById('build-bike').disabled = !canBuildBike();
-	document.getElementById('buy-bike-parts').disabled = !canBuyBikeParts();
 
-	currencyAnimation(`-$${gameData.bikePartsCost}`, document.getElementById("buy-bike-parts"));
-	//This (and really any function that costs money) should also check
-	//to disable any other thing that costs money
+	const buyButton = document.getElementById('buy-bike-parts');
+	buyButton.disabled = !canBuyBikeParts();
+	currencyAnimation(`-$${gameData.bikePartsCost}`, buyButton);
 }
 
 function canHireEmployee() {

@@ -10,7 +10,6 @@ var gameLoop = window.setInterval(function() {
 	// every second
 	if (gameData.timer % 10 === 0) {
 		checkTargets();
-		updateCustomers();
 		adjustBikePartsPrice();
 		manageButtons();
 		calculateBusinessAnalytics();
@@ -18,8 +17,13 @@ var gameLoop = window.setInterval(function() {
 		salesShift();
 	}
 
+	if (gameData.timer % 50 === 0) {
+		updateCustomers();
+	}
+
 	// every 10 seconds
 	if (gameData.timer % 100 === 0) {
+
 		//saveGame();
 	}
 
@@ -240,16 +244,6 @@ function checkTargets() {
 		})
 }
 
-function updateCustomers() {
-	if (getRandomIntInclusive(0, 100) <= gameData.demand) {
-		gameData.customers += 1
-	}
-	else {
-		gameData.customers = Math.max(gameData.customers - 1, 0);
-	}
-	document.getElementById("customers").innerHTML = gameData.customers;
-}
-
 function calculateBusinessAnalytics() {
 	if (gameData.timer % 60 === 0) {
 		gameData.salesRateData.unshift(0);
@@ -291,15 +285,15 @@ function buyBikeParts() {
 	gameData.bikePartsPurchases += 1;
 	gameData.money -= gameData.bikePartsCost;
 	gameData.bikeParts += gameData.bikePartsPerBuy;
+	
 	document.getElementById("bike-parts").innerHTML = Math.round(gameData.bikeParts);
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 
 	document.getElementById('build-bike').disabled = !canBuildBike();
-	document.getElementById('buy-bike-parts').disabled = !canBuyBikeParts();
 
-	currencyAnimation(`-$${gameData.bikePartsCost}`, document.getElementById("buy-bike-parts"));
-	//This (and really any function that costs money) should also check
-	//to disable any other thing that costs money
+	const buyButton = document.getElementById('buy-bike-parts');
+	buyButton.disabled = !canBuyBikeParts();
+	currencyAnimation(`-$${gameData.bikePartsCost}`, buyButton);
 }
 
 function canHireEmployee() {
@@ -621,6 +615,82 @@ function updateActiveProjects() {
 		projectElem = document.getElementById("p" + i);
 		projectElem.classList.toggle("disabled", !active[i].canAfford());
 	}
+}
+
+///////// customers.js /////////
+
+/**
+ * Get the poisson probability of k events happening when
+ * there's an average of lambda events per step
+ */
+function poisson(lambda, k){
+	return (lambda ** k) * (Math.E ** (-lambda)) / factorial(k)
+}
+
+/**
+ * calculate the factorial of int n
+ */
+function factorial(n) {
+	let ret = 1;
+	for (let i = 2; i <= n; i++) {
+		ret *= i;
+	}
+	return(ret)
+}
+
+/**
+ * Get an array representing the cumulative distribution function values
+ * for a poisson distribution from 0 to lambda+10
+ */
+function poissonCDF(lambda) {
+	const max = lambda + 10;
+	let p = [poisson(lambda, 0)];
+
+	for(let i = 1; i <= max; i ++) {
+		p.push(poisson(lambda, i) + p[i - 1]);
+	}
+	return(p);
+}
+
+/**
+ * get the position/index from a sorted array after which the value would
+ * be inserted. All entries up to this position are less than value, and all 
+ * entries after this position are greater than value
+ */
+function bisectLeft(array, value, lo = 0, hi = array.length) {
+	while (lo < hi) {
+		const mid = (lo + hi) >> 1; // right shift by 1 to get division by 2
+		if (array[mid] < value) {
+			lo = mid + 1;
+		} else {
+			hi = mid;
+		}
+	}
+	return lo;
+}
+
+let customerCDF = poissonCDF(gameData.demand);
+
+/**
+ * change the customer demand and update the cumulative
+ * distribution array
+ */
+function updateDemand(newDemand) {
+	gameData.demand = newDemand;
+	customerCDF = poissonCDF(gameData.demand);
+}
+
+/**
+ * Update the number of customers in the store based on a poisson
+ * distribution of customer arrival probability
+ */
+function updateCustomers() {
+	const roll = Math.random();
+	gameData.customers = bisectLeft(customerCDF, roll);
+
+	document.getElementById("customers").innerHTML = gameData.customers;
+	document.getElementById("sell-bike").disabled = !canSellBike();
+
 }
 
 

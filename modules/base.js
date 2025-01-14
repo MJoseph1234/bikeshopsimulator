@@ -10,12 +10,16 @@ var gameLoop = window.setInterval(function() {
 	// every second
 	if (gameData.timer % 10 === 0) {
 		checkTargets();
-		updateCustomers();
 		adjustBikePartsPrice();
 		manageButtons();
 		calculateBusinessAnalytics();
 		updateActiveProjects();
 		salesShift();
+	}
+
+	// every 5 seconds
+	if (gameData.timer % 50 === 0) {
+		updateCustomers();
 	}
 
 	// every 10 seconds
@@ -43,4 +47,5 @@ var gameLoop = window.setInterval(function() {
 
 ///////// project-manager.js ///////////
 
+///////// customers.js /////////
 

@@ -53,7 +53,7 @@ var projects = [
 		effectDescription: "Each bike sold gets a sticker with the shop logo. It's like free advertising.",
 		effect: function() {
 			gameData.money -= 1000;
-			gameData.demand += 10;
+			gameData.demand *= 2;
 			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
 		}
 	},

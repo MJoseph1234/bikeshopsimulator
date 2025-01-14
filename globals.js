@@ -3,7 +3,7 @@ var gameData = {
 	money: 0,
 	bikes: 0,
 	customers: 0,
-	demand: 30,
+	demand: 0.5,
 	bikesSold: 0,
 	partsPerBike: 100,
 	bikeMSRP: 100,

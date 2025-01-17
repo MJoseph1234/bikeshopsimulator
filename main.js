@@ -17,13 +17,13 @@ var gameLoop = window.setInterval(function() {
 		salesShift();
 	}
 
+	// every 5 seconds
 	if (gameData.timer % 50 === 0) {
 		updateCustomers();
 	}
 
 	// every 10 seconds
 	if (gameData.timer % 100 === 0) {
-
 		//saveGame();
 	}
 

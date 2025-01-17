@@ -51,10 +51,23 @@ option:hover {
 }
 
 .progress-bar {
+	position: relative;
 	margin: 1em;
 	height: 25px;
 	border: 1px solid black;
 	padding: 0px 0px;
+}
+
+.build-multiplier {
+	position: absolute;
+	margin: auto;
+	width: 100%;
+	text-align: center;
+	line-height: 25px;
+}
+
+.progress {
+	position: absolute;
 }
 
 #player-build-progress {

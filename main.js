@@ -320,7 +320,7 @@ function hireEmployee() {
 
 	document.getElementById("employees").innerHTML = gameData.employees;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("hire-employee").disables = !canHireEmployee();
+	document.getElementById("hire-employee").disabled = !canHireEmployee();
 
 	let slider = document.getElementById("employee-focus-slider")
 	let currentValue = slider.value;
@@ -544,6 +544,16 @@ function addNewMechanicTimer() {
 		timer.classList.remove("hidden");
 		prog.classList.remove("hidden");
 		gameData.mechanicTimers.push(0);
+	}
+
+	for (let i = 0; i < gameData.mechanicTimers.length; i++) {
+		const timer = document.getElementById(`mech-${i + 1}-timer`);
+		const multiplierLabel = timer.getElementsByClassName("build-multiplier")[0];
+		const mechsOnTimer = Math.floor(gameData.mechanics / 3) + ((gameData.mechanics % 3) > i);
+		if (mechsOnTimer > 1) {
+			multiplierLabel.classList.remove("hidden");
+		}
+		multiplierLabel.innerText = `×${mechsOnTimer}`;
 	}
 }
 

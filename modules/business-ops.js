@@ -85,7 +85,7 @@ function hireEmployee() {
 
 	document.getElementById("employees").innerHTML = gameData.employees;
 	document.getElementById("money").innerHTML = gameData.money.toLocaleString();
-	document.getElementById("hire-employee").disables = !canHireEmployee();
+	document.getElementById("hire-employee").disabled = !canHireEmployee();
 
 	let slider = document.getElementById("employee-focus-slider")
 	let currentValue = slider.value;

@@ -117,4 +117,14 @@ function addNewMechanicTimer() {
 		prog.classList.remove("hidden");
 		gameData.mechanicTimers.push(0);
 	}
+
+	for (let i = 0; i < gameData.mechanicTimers.length; i++) {
+		const timer = document.getElementById(`mech-${i + 1}-timer`);
+		const multiplierLabel = timer.getElementsByClassName("build-multiplier")[0];
+		const mechsOnTimer = Math.floor(gameData.mechanics / 3) + ((gameData.mechanics % 3) > i);
+		if (mechsOnTimer > 1) {
+			multiplierLabel.classList.remove("hidden");
+		}
+		multiplierLabel.innerText = `×${mechsOnTimer}`;
+	}
 }

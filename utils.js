@@ -13,7 +13,7 @@ function showHidden() {
 }
 
 let easy = () => {
-	updateDemand(10);
+	gameData.demand = 10;
 	gameData.salesPersonSuccessRate = 80;
 	gameData.mechanicBaseTimePerBike /= 10;
 }

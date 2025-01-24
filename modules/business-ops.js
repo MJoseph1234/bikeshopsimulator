@@ -31,14 +31,14 @@ function adjustBikePartsPrice() {
 		gameData.bikePartsBaseCost = gameData.bikePartsBaseCost - (gameData.bikePartsBaseCost/100);
 	}
 	if (Math.random() < gameData.bikePartsPriceAdjustChance) {
-		var partsAdjust = 25*(Math.sin(gameData.timer));
+		const partsAdjust = 25*(Math.sin(gameData.timer));
 		gameData.bikePartsCost = Math.ceil(gameData.bikePartsBaseCost + partsAdjust);
 		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	}
 }
 
-function canBuyBikeParts(){
+function canBuyBikeParts() {
 	return(gameData.money >= gameData.bikePartsCost);
 }
 

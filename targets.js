@@ -4,7 +4,7 @@ Targets are passive milestones that, once reached, enable some new feature or ef
 These are checked from the Main Loop
 */
 
-var targets = [
+const targets = [
 	{
 		title: "Hire employees",
 		done: false,

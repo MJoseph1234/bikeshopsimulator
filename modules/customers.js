@@ -56,7 +56,7 @@ let customerCDF = poissonCDF(gameData.demand);
  * distribution array
  */
 function updateDemand(newDemand) {
-	gameData.demand = newDemand;
+	//gameData.demand = newDemand;
 	customerCDF = poissonCDF(gameData.demand);
 }
 

@@ -72,7 +72,7 @@ function mechanicShift() {
 		}
 
 		const timer = document.getElementById(`mech-${i + 1}-timer`);
-		var mechsOnTimer = Math.floor(gameData.mechanics / 3) + ((gameData.mechanics % 3) > i);
+		const mechsOnTimer = Math.floor(gameData.mechanics / 3) + ((gameData.mechanics % 3) > i);
 
 		if (gameData.mechanicTimers[i] >= gameData.mechanicBaseTimePerBike) {
 			gameData.bikes += mechsOnTimer;

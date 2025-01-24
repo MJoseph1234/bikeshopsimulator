@@ -30,7 +30,7 @@ function updateNewsTicker(minTime = 1000) {
 	document.getElementById("tickerText").innerHTML = tickerHTML;
 }
 
-var news = [
+let news = [
 	["Research Shows Bikes are Good For You", "https://www.betterhealth.vic.gov.au/health/healthyliving/cycling-health-benefits"],
 	["Study Suggests Bikes are Faster for Inner City Delivery", "https://www.larryvsharry.com/media/wysiwyg/cms_pages/Stories/Last_Mile_Delivery/Data-driven_Evaluation_of_Cargo_Bike_Delivery_Performance_in_Brussels.pdf"],
 	["Urbanists: E-bikes are Fastest Way to the Airport", "https://www.wsj.com/lifestyle/travel/airport-race-new-york-chicago-los-angeles-67a2acbf"],

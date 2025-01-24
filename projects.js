@@ -11,7 +11,7 @@ const projectStatus = {
 	DONE: "done" // purchased
 }
 
-var projects = [
+const projects = [
 	{
 		title: 'Basic Sales Training',
 		status: projectStatus.UNAVAILABLE,

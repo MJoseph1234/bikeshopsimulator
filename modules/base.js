@@ -2,7 +2,7 @@ if (localStorage.getItem("bikeShopSimulatorSave") != null) {
 	//loadGame();
 }
 
-var gameLoop = window.setInterval(function() {
+const gameLoop = window.setInterval(function() {
 	//runs 10 per second
 	gameData.timer += 1;
 	mechanicShift();
@@ -17,8 +17,8 @@ var gameLoop = window.setInterval(function() {
 		salesShift();
 	}
 
-	// every 5 seconds
-	if (gameData.timer % 50 === 0) {
+	// every 2 seconds
+	if (gameData.timer % 20 === 0) {
 		updateCustomers();
 	}
 

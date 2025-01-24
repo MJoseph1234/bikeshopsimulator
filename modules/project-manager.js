@@ -52,8 +52,8 @@ function refreshProjectDOM() {
  * purchased or not and update the dom accordingly.
  */
 function updateActiveProjects() {
-	var active = projects.filter((project) => project.status == projectStatus.ACTIVE);
-	var available = projects.filter((project) => project.status == projectStatus.AVAILABLE);
+	let active = projects.filter((project) => project.status == projectStatus.ACTIVE);
+	let available = projects.filter((project) => project.status == projectStatus.AVAILABLE);
 	
 	while (active.length < 5 && available.length > 0) {
 		prj = available.shift();

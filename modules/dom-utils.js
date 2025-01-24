@@ -29,10 +29,10 @@ function manageButtons() {
  * @param {HTMLElement} element - the DOM element to blink
  */
 function blinkAppear(element) {
-	var blinkCount = 0;
+	let blinkCount = 0;
 	element.classList.remove("hidden");
 
-	var handle = setInterval( () => toggleVisibility(element), 30);
+	const handle = setInterval( () => toggleVisibility(element), 30);
 
 	function toggleVisibility(element) {
 		blinkCount += 1;

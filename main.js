@@ -2,7 +2,7 @@ if (localStorage.getItem("bikeShopSimulatorSave") != null) {
 	//loadGame();
 }
 
-var gameLoop = window.setInterval(function() {
+const gameLoop = window.setInterval(function() {
 	//runs 10 per second
 	gameData.timer += 1;
 	mechanicShift();
@@ -17,8 +17,8 @@ var gameLoop = window.setInterval(function() {
 		salesShift();
 	}
 
-	// every 5 seconds
-	if (gameData.timer % 50 === 0) {
+	// every 2 seconds
+	if (gameData.timer % 20 === 0) {
 		updateCustomers();
 	}
 
@@ -65,10 +65,10 @@ function manageButtons() {
  * @param {HTMLElement} element - the DOM element to blink
  */
 function blinkAppear(element) {
-	var blinkCount = 0;
+	let blinkCount = 0;
 	element.classList.remove("hidden");
 
-	var handle = setInterval( () => toggleVisibility(element), 30);
+	const handle = setInterval( () => toggleVisibility(element), 30);
 
 	function toggleVisibility(element) {
 		blinkCount += 1;
@@ -144,12 +144,12 @@ function currencyAnimation(textValue = "+$100", fromElem) {
 
 ////////// save-and-load.js /////////
 function saveGame() {
-	var targetsMet = [];
-	for (var i=0; i < targets.length; i++) {
+	let targetsMet = [];
+	for (let i=0; i < targets.length; i++) {
 		targetsMet[i] = targets[i].done;
 	}
 	gameData.projectStatuses = [];
-	for (var i=0; i < projects.length; i++){
+	for (let i=0; i < projects.length; i++){
 		gameData.projectStatuses.push(projects[i].status)
 	}
 	localStorage.setItem("bikeShopSimulatorSave", JSON.stringify(gameData));
@@ -157,13 +157,13 @@ function saveGame() {
 }
 
 function loadGame() {
-	var savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
-	var savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));
+	let savedGame = JSON.parse(localStorage.getItem("bikeShopSimulatorSave"));
+	let savedTargets = JSON.parse(localStorage.getItem("bikeShopSimulatorSaveTargets"));
 	if (savedGame != null) {
 		gameData = savedGame;
 	}
 	if (savedTargets != null){
-		for (var i=0; i < savedTargets.length; i++) {
+		for (let i=0; i < savedTargets.length; i++) {
 			if (savedTargets[i].done) {
 				targets[i].done = true;
 				target.effect();
@@ -210,7 +210,7 @@ function updateNewsTicker(minTime = 1000) {
 	document.getElementById("tickerText").innerHTML = tickerHTML;
 }
 
-var news = [
+let news = [
 	["Research Shows Bikes are Good For You", "https://www.betterhealth.vic.gov.au/health/healthyliving/cycling-health-benefits"],
 	["Study Suggests Bikes are Faster for Inner City Delivery", "https://www.larryvsharry.com/media/wysiwyg/cms_pages/Stories/Last_Mile_Delivery/Data-driven_Evaluation_of_Cargo_Bike_Delivery_Performance_in_Brussels.pdf"],
 	["Urbanists: E-bikes are Fastest Way to the Airport", "https://www.wsj.com/lifestyle/travel/airport-race-new-york-chicago-los-angeles-67a2acbf"],
@@ -266,14 +266,14 @@ function adjustBikePartsPrice() {
 		gameData.bikePartsBaseCost = gameData.bikePartsBaseCost - (gameData.bikePartsBaseCost/100);
 	}
 	if (Math.random() < gameData.bikePartsPriceAdjustChance) {
-		var partsAdjust = 25*(Math.sin(gameData.timer));
+		const partsAdjust = 25*(Math.sin(gameData.timer));
 		gameData.bikePartsCost = Math.ceil(gameData.bikePartsBaseCost + partsAdjust);
 		document.getElementById("parts-cost").innerHTML = gameData.bikePartsCost.toLocaleString();
 		document.getElementById("buy-bike-parts").disabled = !canBuyBikeParts();
 	}
 }
 
-function canBuyBikeParts(){
+function canBuyBikeParts() {
 	return(gameData.money >= gameData.bikePartsCost);
 }
 
@@ -402,7 +402,7 @@ function salesShift() {
 		return
 	}
 	for (let i = 0; i < gameData.salesPeople; i++) {
-		var salesSuccess = getRandomIntInclusive(0, 100);
+		const salesSuccess = getRandomIntInclusive(0, 100);
 		if (salesSuccess < gameData.salesPersonSuccessRate) {
 			sellFunction();
 		}
@@ -500,7 +500,7 @@ function mechanicShift() {
 		}
 
 		const timer = document.getElementById(`mech-${i + 1}-timer`);
-		var mechsOnTimer = Math.floor(gameData.mechanics / 3) + ((gameData.mechanics % 3) > i);
+		const mechsOnTimer = Math.floor(gameData.mechanics / 3) + ((gameData.mechanics % 3) > i);
 
 		if (gameData.mechanicTimers[i] >= gameData.mechanicBaseTimePerBike) {
 			gameData.bikes += mechsOnTimer;
@@ -612,8 +612,8 @@ function refreshProjectDOM() {
  * purchased or not and update the dom accordingly.
  */
 function updateActiveProjects() {
-	var active = projects.filter((project) => project.status == projectStatus.ACTIVE);
-	var available = projects.filter((project) => project.status == projectStatus.AVAILABLE);
+	let active = projects.filter((project) => project.status == projectStatus.ACTIVE);
+	let available = projects.filter((project) => project.status == projectStatus.AVAILABLE);
 	
 	while (active.length < 5 && available.length > 0) {
 		prj = available.shift();
@@ -686,7 +686,7 @@ let customerCDF = poissonCDF(gameData.demand);
  * distribution array
  */
 function updateDemand(newDemand) {
-	gameData.demand = newDemand;
+	//gameData.demand = newDemand;
 	customerCDF = poissonCDF(gameData.demand);
 }
 

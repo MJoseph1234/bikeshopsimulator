@@ -58,8 +58,7 @@ function salesShift() {
 		return
 	}
 	for (let i = 0; i < gameData.salesPeople; i++) {
-		const salesSuccess = getRandomIntInclusive(0, 100);
-		if (salesSuccess < gameData.salesPersonSuccessRate) {
+		if (Math.random() < gameData.salesPersonSuccessRate) {
 			sellFunction();
 		}
 	}

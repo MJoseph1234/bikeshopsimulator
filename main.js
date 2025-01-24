@@ -6,6 +6,7 @@ const gameLoop = window.setInterval(function() {
 	//runs 10 per second
 	gameData.timer += 1;
 	mechanicShift();
+	salesShift();
 
 	// every second
 	if (gameData.timer % 10 === 0) {
@@ -14,7 +15,7 @@ const gameLoop = window.setInterval(function() {
 		manageButtons();
 		calculateBusinessAnalytics();
 		updateActiveProjects();
-		salesShift();
+		
 	}
 
 	// every 2 seconds
@@ -402,8 +403,7 @@ function salesShift() {
 		return
 	}
 	for (let i = 0; i < gameData.salesPeople; i++) {
-		const salesSuccess = getRandomIntInclusive(0, 100);
-		if (salesSuccess < gameData.salesPersonSuccessRate) {
+		if (Math.random() < gameData.salesPersonSuccessRate) {
 			sellFunction();
 		}
 	}

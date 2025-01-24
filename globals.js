@@ -3,7 +3,7 @@ const gameData = {
 	money: 0,
 	bikes: 0,
 	customers: 0,
-	_demand: 1,	//how many customers arive, on average, per five seconds
+	_demand: 0.5,	//how many customers arive, on average, per five seconds
 	bikesSold: 0,
 	partsPerBike: 100,
 	bikeMSRP: 100,
@@ -24,7 +24,7 @@ const gameData = {
 	employeeHiringCost: 1000,
 
 	salesPeople: 0,
-	salesPersonSuccessRate: 25,// x over 100 chance per customer of selling a bike (if there's one to sell)
+	salesPersonSuccessRate: 0.025,// chance per customer of selling a bike (if there's one to sell)
 	salesPersonHiringCost: 1000,
 	salesRateData: [0],
 	salesRate: 0, //sales per minute over last 5 minutes

@@ -1,9 +1,9 @@
-var gameData = {
+const gameData = {
 	timer: 0,
 	money: 0,
 	bikes: 0,
 	customers: 0,
-	demand: 0.5,	//how many customers arive, on average, per five seconds
+	_demand: 1,	//how many customers arive, on average, per five seconds
 	bikesSold: 0,
 	partsPerBike: 100,
 	bikeMSRP: 100,
@@ -33,5 +33,14 @@ var gameData = {
 	mechanicTimers: [],
 	mechanicBaseTimePerBike: 300, //deci-seconds (30 seconds) per bike per mechanic
 	mechanicHiringCost: 1000,
+
+	get demand() {
+		return this._demand;
+	},
+	set demand(x) {
+		this._demand = x;
+		updateDemand(x);
+	}
+
 }
 

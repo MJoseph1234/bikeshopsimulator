@@ -34,6 +34,10 @@ const gameData = {
 	mechanicBaseTimePerBike: 300, //deci-seconds (30 seconds) per bike per mechanic
 	mechanicHiringCost: 1000,
 
+	eventTimer: 0,
+	eventIncrements: 1,
+	currentEvent: null,
+
 	get demand() {
 		return this._demand;
 	},

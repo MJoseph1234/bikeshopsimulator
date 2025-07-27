@@ -76,5 +76,17 @@ const projects = [
 		}
 	},
 
-
+	{
+		title: "Plan a Group Ride",
+		status: projectStatus.UNAVAILABLE,
+		costStr: "$10,000",
+		canAfford: function() { return gameData.money >= 10000 },
+		effectDescription: "Plan a group ride for your customers",
+		effect: function() {
+			gameData.money -= 10000;
+			document.getElementById("money").innerHTML = gameData.money.toLocaleString();
+			blinkAppear(document.getElementById("community-events"))
+			startEvent("groupRide");
+		}
+	},
 ];

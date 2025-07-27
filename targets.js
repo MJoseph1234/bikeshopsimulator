@@ -1,4 +1,4 @@
-/* Targets
+ /* Targets
 
 Targets are passive milestones that, once reached, enable some new feature or effect
 These are checked from the Main Loop
@@ -24,6 +24,16 @@ const targets = [
 			blinkAppear(document.getElementById("phase2"));
 			projects[0].status =  projectStatus.AVAILABLE;
 			projects[1].status = projectStatus.AVAILABLE;
+		}
+	},
+
+	{
+		title: "first community event",
+		done: false,
+		effectDescription: "Plan your first community event",
+		trigger: function() { return gameData.bikesSold > 100 },
+		effect: function() {
+			projects[5].status = projectStatus.AVAILABLE;
 		}
 	},
 

@@ -15,6 +15,7 @@ const gameLoop = window.setInterval(function() {
 		manageButtons();
 		calculateBusinessAnalytics();
 		updateActiveProjects();
+		eventStep();
 		
 	}
 
@@ -49,4 +50,6 @@ const gameLoop = window.setInterval(function() {
 ///////// project-manager.js ///////////
 
 ///////// customers.js /////////
+
+///////// community-events.js /////////
 

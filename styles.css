@@ -58,7 +58,7 @@ option:hover {
 	padding: 0px 0px;
 }
 
-.build-multiplier {
+.progress-bar p {
 	position: absolute;
 	margin: auto;
 	width: 100%;

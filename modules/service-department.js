@@ -8,8 +8,9 @@ function finishBike() {
 	gameData.bikeBuildProgress = 0;
 }
 
-function bikeBuildStep() {
-	if (!canBuildBike()){
+function bikeBuildStep(event) {
+	//console.log(event);
+	if ( !canBuildBike() ) {
 		return;
 	}
 
@@ -17,14 +18,14 @@ function bikeBuildStep() {
 
 	let timer = document.getElementById("player-build-timer");
 
-	if (gameData.bikeBuildProgress >= buildTime) {
+	if ( gameData.bikeBuildProgress >= buildTime ) {
 		finishBike();
 		timer.style.setProperty("--progress", '0%')
 	}
 	else {
 		let partsPerInterval = gameData.partsPerBike / buildTime;
 		
-		if (gameData.bikeParts < partsPerInterval) {
+		if ( gameData.bikeParts < partsPerInterval ) {
 			gameData.bikeBuildProgress += (gameData.bikeParts / partsPerInterval);
 			gameData.bikeParts = 0;
 		}
@@ -39,11 +40,11 @@ function bikeBuildStep() {
 	}
 }
 
-document.getElementById("build-bike").addEventListener("click", () => bikeBuildStep() );
+document.getElementById("build-bike").addEventListener("click", (event) => bikeBuildStep(event));
 
 let buildInterval;
-document.getElementById("build-bike").addEventListener("mousedown", () => {
-	buildInterval = window.setInterval( () => bikeBuildStep(), 100);
+document.getElementById("build-bike").addEventListener("mousedown", (event) => {
+	buildInterval = window.setInterval( () => bikeBuildStep(event), 100);
 });
 
 document.getElementById("build-bike").addEventListener("mouseup", () => {
@@ -58,7 +59,7 @@ document.getElementById("build-bike").addEventListener("mouseleave", () => {
  * Loop through each mechanic and update their build progress
  */
 function mechanicShift() {
-	if (gameData.mechanics <= 0) {
+	if ( gameData.mechanics <= 0 ) {
 		return
 	}
 
@@ -67,7 +68,7 @@ function mechanicShift() {
 
 	for (let i = 0; i < timersToUpdate; i++) {
 
-		if (!canBuildBike()) {
+		if ( !canBuildBike() ) {
 			return;
 		}
 
@@ -83,7 +84,7 @@ function mechanicShift() {
 		else {
 			// if there's not enough parts for ALL the mechanics on that timer,
 			// only progress a fractional amount
-			if (gameData.bikeParts < (mechsOnTimer * partsPerInterval)) {
+			if ( gameData.bikeParts < (mechsOnTimer * partsPerInterval) ) {
 				gameData.mechanicTimers[i] += (gameData.bikeParts / (mechsOnTimer * partsPerInterval))
 				gameData.bikeParts = 0;
 			}

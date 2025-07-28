@@ -37,6 +37,8 @@ const gameData = {
 	eventTimer: 0,
 	eventIncrements: 1,
 	currentEvent: null,
+	communityPoints: 0,
+	communityPointsMax: 100,
 
 	get demand() {
 		return this._demand;
